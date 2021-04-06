@@ -868,7 +868,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    suites it supports.  SUITES_I is a CBOR array containing cipher
    suites that the Initiator supports.  SUITES_I is formatted and
    processed as detailed in Section 5.3.1 to secure the cipher suite
-   negotation.  Examples of cipher suite negotiation are give in
+   negotation.  Examples of cipher suite negotiation are given in
    Section 6.3.2.
 
 3.5.  Ephemeral Public Keys
