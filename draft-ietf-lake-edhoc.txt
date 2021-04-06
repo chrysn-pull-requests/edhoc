@@ -5,8 +5,8 @@
 Network Working Group                                        G. Selander
 Internet-Draft                                               J. Mattsson
 Intended status: Standards Track                            F. Palombini
-Expires: 3 October 2021                                      Ericsson AB
-                                                            1 April 2021
+Expires: 8 October 2021                                      Ericsson AB
+                                                            6 April 2021
 
 
                Ephemeral Diffie-Hellman Over COSE (EDHOC)
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 October 2021.
+   This Internet-Draft will expire on 8 October 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Selander, et al.         Expires 3 October 2021                 [Page 1]
+Selander, et al.         Expires 8 October 2021                 [Page 1]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -69,67 +69,69 @@ Table of Contents
      1.2.  Use of EDHOC  . . . . . . . . . . . . . . . . . . . . . .   4
      1.3.  Message Size Examples . . . . . . . . . . . . . . . . . .   5
      1.4.  Document Structure  . . . . . . . . . . . . . . . . . . .   5
-     1.5.  Terminology and Requirements Language . . . . . . . . . .   5
+     1.5.  Terminology and Requirements Language . . . . . . . . . .   6
    2.  EDHOC Outline . . . . . . . . . . . . . . . . . . . . . . . .   6
    3.  Protocol Elements . . . . . . . . . . . . . . . . . . . . . .   8
      3.1.  General . . . . . . . . . . . . . . . . . . . . . . . . .   8
-     3.2.  Method and Correlation  . . . . . . . . . . . . . . . . .   8
+     3.2.  Method and Correlation  . . . . . . . . . . . . . . . . .   9
      3.3.  Authentication Parameters . . . . . . . . . . . . . . . .  10
-     3.4.  Cipher Suites . . . . . . . . . . . . . . . . . . . . . .  14
+     3.4.  Cipher Suites . . . . . . . . . . . . . . . . . . . . . .  15
      3.5.  Ephemeral Public Keys . . . . . . . . . . . . . . . . . .  16
-     3.6.  Auxiliary Data  . . . . . . . . . . . . . . . . . . . . .  16
+     3.6.  Auxiliary Data  . . . . . . . . . . . . . . . . . . . . .  17
      3.7.  Applicability Statement . . . . . . . . . . . . . . . . .  17
-   4.  Key Derivation  . . . . . . . . . . . . . . . . . . . . . . .  18
-     4.1.  EDHOC-Exporter Interface  . . . . . . . . . . . . . . . .  20
+   4.  Key Derivation  . . . . . . . . . . . . . . . . . . . . . . .  19
+     4.1.  EDHOC-Exporter Interface  . . . . . . . . . . . . . . . .  21
    5.  Message Formatting and Processing . . . . . . . . . . . . . .  21
-     5.1.  Encoding of bstr_identifier . . . . . . . . . . . . . . .  21
+     5.1.  Encoding of bstr_identifier . . . . . . . . . . . . . . .  22
      5.2.  High-Level Message Processing . . . . . . . . . . . . . .  22
-     5.3.  EDHOC Message 1 . . . . . . . . . . . . . . . . . . . . .  22
-     5.4.  EDHOC Message 2 . . . . . . . . . . . . . . . . . . . . .  24
-     5.5.  EDHOC Message 3 . . . . . . . . . . . . . . . . . . . . .  27
+     5.3.  EDHOC Message 1 . . . . . . . . . . . . . . . . . . . . .  23
+     5.4.  EDHOC Message 2 . . . . . . . . . . . . . . . . . . . . .  25
+     5.5.  EDHOC Message 3 . . . . . . . . . . . . . . . . . . . . .  28
    6.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . .  31
-     6.1.  EDHOC Error Message . . . . . . . . . . . . . . . . . . .  31
-   7.  Transferring EDHOC and Deriving an OSCORE Context . . . . . .  34
-     7.1.  EDHOC Message 4 . . . . . . . . . . . . . . . . . . . . .  34
-     7.2.  Transferring EDHOC in CoAP  . . . . . . . . . . . . . . .  36
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  39
-     8.1.  Security Properties . . . . . . . . . . . . . . . . . . .  39
-     8.2.  Cryptographic Considerations  . . . . . . . . . . . . . .  41
-     8.3.  Cipher Suites and Cryptographic Algorithms  . . . . . . .  42
-     8.4.  Unprotected Data  . . . . . . . . . . . . . . . . . . . .  42
-     8.5.  Denial-of-Service . . . . . . . . . . . . . . . . . . . .  43
-     8.6.  Implementation Considerations . . . . . . . . . . . . . .  43
-     8.7.  Other Documents Referencing EDHOC . . . . . . . . . . . .  45
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  45
-     9.1.  EDHOC Cipher Suites Registry  . . . . . . . . . . . . . .  45
-     9.2.  EDHOC Method Type Registry  . . . . . . . . . . . . . . .  46
-     9.3.  The Well-Known URI Registry . . . . . . . . . . . . . . .  46
-     9.4.  Media Types Registry  . . . . . . . . . . . . . . . . . .  47
-     9.5.  CoAP Content-Formats Registry . . . . . . . . . . . . . .  48
+     6.1.  Success (ERR_CODE == -1)  . . . . . . . . . . . . . . . .  32
+     6.2.  Unspecified (ERR_CODE == 0) . . . . . . . . . . . . . . .  32
+     6.3.  Wrong Selected Cipher Suite (ERR_CODE == 1) . . . . . . .  33
+   7.  Transferring EDHOC and Deriving an OSCORE Context . . . . . .  35
+     7.1.  EDHOC Message 4 . . . . . . . . . . . . . . . . . . . . .  35
+     7.2.  Transferring EDHOC in CoAP  . . . . . . . . . . . . . . .  37
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  40
+     8.1.  Security Properties . . . . . . . . . . . . . . . . . . .  40
+     8.2.  Cryptographic Considerations  . . . . . . . . . . . . . .  42
+     8.3.  Cipher Suites and Cryptographic Algorithms  . . . . . . .  43
+     8.4.  Unprotected Data  . . . . . . . . . . . . . . . . . . . .  43
+     8.5.  Denial-of-Service . . . . . . . . . . . . . . . . . . . .  44
+     8.6.  Implementation Considerations . . . . . . . . . . . . . .  44
+     8.7.  Other Documents Referencing EDHOC . . . . . . . . . . . .  46
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  46
+     9.1.  EDHOC Cipher Suites Registry  . . . . . . . . . . . . . .  46
+     9.2.  EDHOC Method Type Registry  . . . . . . . . . . . . . . .  47
+     9.3.  The Well-Known URI Registry . . . . . . . . . . . . . . .  47
 
 
 
-Selander, et al.         Expires 3 October 2021                 [Page 2]
+Selander, et al.         Expires 8 October 2021                 [Page 2]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
-     9.6.  Expert Review Instructions  . . . . . . . . . . . . . . .  48
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  48
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .  48
-     10.2.  Informative References . . . . . . . . . . . . . . . . .  50
-   Appendix A.  Use of CBOR, CDDL and COSE in EDHOC  . . . . . . . .  53
-     A.1.  CBOR and CDDL . . . . . . . . . . . . . . . . . . . . . .  54
-     A.2.  COSE  . . . . . . . . . . . . . . . . . . . . . . . . . .  54
-   Appendix B.  Test Vectors . . . . . . . . . . . . . . . . . . . .  55
+     9.4.  Media Types Registry  . . . . . . . . . . . . . . . . . .  48
+     9.5.  CoAP Content-Formats Registry . . . . . . . . . . . . . .  49
+     9.6.  Expert Review Instructions  . . . . . . . . . . . . . . .  49
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  49
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  49
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  51
+   Appendix A.  Use of CBOR, CDDL and COSE in EDHOC  . . . . . . . .  54
+     A.1.  CBOR and CDDL . . . . . . . . . . . . . . . . . . . . . .  55
+     A.2.  COSE  . . . . . . . . . . . . . . . . . . . . . . . . . .  55
+   Appendix B.  Test Vectors . . . . . . . . . . . . . . . . . . . .  56
      B.1.  Test Vectors for EDHOC Authenticated with Signature Keys
-           (x5t) . . . . . . . . . . . . . . . . . . . . . . . . . .  55
+           (x5t) . . . . . . . . . . . . . . . . . . . . . . . . . .  56
      B.2.  Test Vectors for EDHOC Authenticated with Static
-           Diffie-Hellman Keys . . . . . . . . . . . . . . . . . . .  73
-   Appendix C.  Applicability Template . . . . . . . . . . . . . . .  88
-   Appendix D.  Lack of Message De-duplication . . . . . . . . . . .  89
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  89
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  89
+           Diffie-Hellman Keys . . . . . . . . . . . . . . . . . . .  74
+   Appendix C.  Applicability Template . . . . . . . . . . . . . . .  89
+   Appendix D.  Lack of Message De-duplication . . . . . . . . . . .  90
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  90
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  90
 
 1.  Introduction
 
@@ -159,17 +161,18 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    of underlying transport technologies, potentially even with a single
    connection.
 
-   Some security solutions for such settings exist already.  CBOR Object
-   Signing and Encryption (COSE) [RFC8152] specifies basic application-
-   layer security services efficiently encoded in CBOR.  Another example
 
 
 
-Selander, et al.         Expires 3 October 2021                 [Page 3]
+
+Selander, et al.         Expires 8 October 2021                 [Page 3]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
+   Some security solutions for such settings exist already.  CBOR Object
+   Signing and Encryption (COSE) [RFC8152] specifies basic application-
+   layer security services efficiently encoded in CBOR.  Another example
    is Object Security for Constrained RESTful Environments (OSCORE)
    [RFC8613] which is a lightweight communication security extension to
    CoAP using CBOR and COSE.  In order to establish good quality
@@ -215,16 +218,17 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    networks are also relevant since both endpoints would then benefit
    from the lightweight properties of the protocol.  EDHOC could e.g. be
    run when a device/device(s) connect(s) for the first time, or to
-   establish fresh keys which are not revealed by a later compromise of
-   the long-term keys.  Further security properties are described in
-   Section 8.1.
 
 
 
-Selander, et al.         Expires 3 October 2021                 [Page 4]
+Selander, et al.         Expires 8 October 2021                 [Page 4]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
+
+   establish fresh keys which are not revealed by a later compromise of
+   the long-term keys.  Further security properties are described in
+   Section 8.1.
 
    EDHOC builds on the same lightweight primitives as OSCORE: CBOR for
    encoding, COSE for cryptography, and CoAP for transport.  By reusing
@@ -267,6 +271,17 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    EDHOC error message, and Section 7 describes how EDHOC can be
    transferred in CoAP and used to establish an OSCORE security context.
 
+
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                 [Page 5]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
 1.5.  Terminology and Requirements Language
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -274,13 +289,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    "OPTIONAL" in this document are to be interpreted as described in BCP
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
-
-
-
-Selander, et al.         Expires 3 October 2021                 [Page 5]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    Readers are expected to be familiar with the terms and concepts
    described in CBOR [RFC8949], CBOR Sequences [RFC8742], COSE
@@ -321,6 +329,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
     Figure 2: Authenticated encryption variant of the SIGMA-I protocol.
 
+
+
+
+
+Selander, et al.         Expires 8 October 2021                 [Page 6]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    The parties exchanging messages are called Initiator (I) and
    Responder (R).  They exchange ephemeral public keys, compute the
    shared secret, and derive symmetric application keys.
@@ -330,13 +347,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  CRED_I and CRED_R are the credentials containing the public
       authentication keys of I and R, respectively.
-
-
-
-Selander, et al.         Expires 3 October 2021                 [Page 6]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    *  ID_CRED_I and ID_CRED_R are data enabling the recipient party to
       retrieve the credential of I and R, respectively.
@@ -377,6 +387,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  Method types and error handling.
 
+
+
+Selander, et al.         Expires 8 October 2021                 [Page 7]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    *  Transport of opaque auxiliary data.
 
    EDHOC is designed to encrypt and integrity protect as much
@@ -385,14 +402,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    to be as compact and lightweight as possible, in terms of message
    sizes, processing, and the ability to reuse already existing CBOR,
    COSE, and CoAP libraries.
-
-
-
-
-Selander, et al.         Expires 3 October 2021                 [Page 7]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    To simplify for implementors, the use of CBOR and COSE in EDHOC is
    summarized in Appendix A and test vectors including CBOR diagnostic
@@ -434,6 +443,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    +------------------------------------------------------------------>|
    |                             message_3                             |
 
+
+
+Selander, et al.         Expires 8 October 2021                 [Page 8]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
                         Figure 3: EDHOC Message Flow
 
 3.2.  Method and Correlation
@@ -441,14 +457,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    The data item METHOD_CORR in message_1 (see Section 5.3.1), is an
    integer specifying the method and the correlation properties of the
    transport, which are described in this section.
-
-
-
-
-Selander, et al.         Expires 3 October 2021                 [Page 8]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
 3.2.1.  Method
 
@@ -484,6 +492,20 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    In cases where a node only has one connection, the identifiers may
    even be the empty byte string.
 
+
+
+
+
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                 [Page 9]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    The connection identifier MAY be used with an application protocol
    (e.g.  OSCORE) for which EDHOC establishes keys, in which case the
    connection identifiers SHALL adhere to the requirements for that
@@ -491,20 +513,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    other party to use in outgoing messages.  (For OSCORE this results in
    the endpoint selecting its Recipient ID, see Section 3.1 of
    [RFC8613]).
-
-
-
-
-
-
-
-
-
-
-Selander, et al.         Expires 3 October 2021                 [Page 9]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
 3.2.3.  Transport
 
@@ -539,6 +547,21 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 3.3.  Authentication Parameters
 
+
+
+
+
+
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 10]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
 3.3.1.  Authentication Keys
 
    The authentication key MUST be a signature key or static Diffie-
@@ -553,14 +576,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    Diffie-Hellman keys the Initiator's and Responder's private
    authentication keys are called I and R, respectively, and the public
    authentication keys are called G_I and G_R, respectively.
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 10]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    *  Only the Responder SHALL have access to the Responder's private
       authentication key.
@@ -595,6 +610,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       included in the endpoint's certificate.  Before running EDHOC each
       party needs at least one CA public key certificate, or just the
       public key, and a specific identity or set of identities it is
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 11]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
       allowed to communicate with.  Only validated public-key
       certificates with an allowed subject name, as specified by the
       application, are to be accepted.  EDHOC provides proof that the
@@ -610,14 +633,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       For example, the name of the subject may be a canonical
       representation of the public key.  Alternatively, if identities
       can be expressed in the form of unique subject names assigned to
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 11]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
       public keys, then a binding to identity can be achieved by
       including both public key and associated subject name in the
       protocol message computation: CRED_I or CRED_R may be a self-
@@ -651,6 +666,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    To prevent misbinding attacks in systems where an attacker can
    register public keys without proving knowledge of the private key,
    SIGMA [SIGMA] enforces a MAC to be calculated over the "Identity",
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 12]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    which in case of a X.509 certificate would be the 'subject' and
    'subjectAltName' fields.  EDHOC follows SIGMA by calculating a MAC
    over the whole certificate.  While the SIGMA paper only focuses on
@@ -663,16 +686,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    that it is identical when generated by Initiator or Responder.  The
    parameters SHALL be encoded in decreasing order with int labels first
    and text string labels last.
-
-
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 12]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    If the parties have agreed on an identity besides the public key, the
    identity is included in the CBOR map with the label "subject name",
@@ -708,6 +721,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  ID_CRED_R is intended to facilitate for the Initiator to retrieve
       the Responder's public authentication key.
 
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 13]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    *  ID_CRED_I is intended to facilitate for the Responder to retrieve
       the Initiator's public authentication key.
 
@@ -720,15 +742,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    identified with a 'kid' parameter:
 
    *  ID_CRED_x = { 4 : kid_x }, where kid_x : bstr, for x = I or R.
-
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 13]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    Public key certificates can be identified in different ways.  Header
    parameters for identifying CBOR certificates and X.509 certificates
@@ -764,6 +777,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    where a node only has one key, the identifier may even be the empty
    byte string.
 
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 14]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
 3.4.  Cipher Suites
 
    An EDHOC cipher suite consists of an ordered set of COSE code points
@@ -778,13 +800,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  EDHOC signature algorithm
 
    *  EDHOC signature algorithm curve
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 14]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    *  Application AEAD algorithm
 
@@ -817,6 +832,16 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
          (AES-CCM-16-128-128, SHA-256, P-256, ES256, P-256,
           AES-CCM-16-64-128, SHA-256)
 
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 15]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    The following cipher suite is for general non-constrained
    applications.  It uses very high performance algorithms that also are
    widely supported:
@@ -833,15 +858,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
          (A256GCM, SHA-384, P-384, ES384, P-384,
           A256GCM, SHA-384)
 
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 15]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    The different methods use the same cipher suites, but some algorithms
    are not used in some methods.  The EDHOC signature algorithm and the
    EDHOC signature algorithm curve are not used in methods without
@@ -853,7 +869,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    suites that the Initiator supports.  SUITES_I is formatted and
    processed as detailed in Section 5.3.1 to secure the cipher suite
    negotation.  Examples of cipher suite negotiation are give in
-   Section 6.1.1.
+   Section 6.3.2.
 
 3.5.  Ephemeral Public Keys
 
@@ -865,6 +881,22 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    parameter, any of the possible values of the y-coordinate can be
    used, see Appendix C of [RFC6090].  COSE [RFC8152] always use compact
    output for Elliptic Curve Keys of type EC2.
+
+
+
+
+
+
+
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 16]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
 3.6.  Auxiliary Data
 
@@ -887,16 +919,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    the data a) does not violate security and privacy requirements of the
    service which uses this data, and b) does not violate the security
    properties of EDHOC.
-
-
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 16]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
 3.7.  Applicability Statement
 
@@ -925,6 +947,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    3.  Whether the optional initial "null" of message_1 is used; see
        Section 5.3.1
 
+
+
+Selander, et al.         Expires 8 October 2021                [Page 17]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    4.  Authentication credentials (CRED_I, CRED_R; see Section 3.3.3).
 
    5.  Type used to identify authentication credentials (ID_CRED_I,
@@ -945,14 +974,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    receiver is able to verify compliance with applicability statement,
    and if it needs to fail because of incompliance, to infer the reason
    why the protocol failed.
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 17]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    For other parameters, like an CRED_x in the case that it is not
    transported, it may not be possible to verify that incompliance with
@@ -981,6 +1002,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    able to determine which is applicable for a given protocol instance,
    for example based on URI or Auxiliary Data type.
 
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 18]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
 4.  Key Derivation
 
    EDHOC uses Extract-and-Expand [RFC5869] with the EDHOC hash algorithm
@@ -1001,14 +1030,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    is used to derive keys and IVs to produce a MAC in message_2 and to
    encrypt message_3.  PRK_4x3m is used to derive keys and IVs to
    produce a MAC in message_3 and to derive application specific data.
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 18]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    PRK_2e is derived with the following input:
 
@@ -1036,6 +1057,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       shared secret calculated from G_R and X, or G_X and R, else
       PRK_3e2m = PRK_2e.
 
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 19]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    *  If the Initiator authenticates with a static Diffie-Hellman key,
       then PRK_4x3m = Extract( PRK_3e2m, G_IY ), where G_IY is the ECDH
       shared secret calculated from G_I and Y, or G_Y and I, else
@@ -1055,16 +1085,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
           = Expand( PRK, info, length )
 
    where info is the CBOR encoding of
-
-
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 19]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    info = [
       edhoc_aead_id : int / tstr,
@@ -1091,6 +1111,17 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  length is the length of output keying material (OKM) in bytes
 
+
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 20]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    If the EDHOC hash algorithm is SHA-2, then Expand( PRK, info, length
    ) = HKDF-Expand( PRK, info, length ) [RFC5869].  If the EDHOC hash
    algorithm is SHAKE128, then Expand( PRK, info, length ) = KMAC128(
@@ -1112,15 +1143,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
       EDHOC-Exporter(label, length)
         = EDHOC-KDF(PRK_4x3m, TH_4, label, length)
-
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 20]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
    where label is a tstr defined by the application and length is a uint
    defined by the application.  The label SHALL be different for each
@@ -1146,6 +1168,16 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    This section specifies formatting of the messages and processing
    steps.  Error messages are specified in Section 6.
 
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 21]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    An EDHOC message is encoded as a sequence of CBOR data (CBOR
    Sequence, [RFC8742]).  Additional optimizations are made to reduce
    message overhead.
@@ -1170,14 +1202,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    minus 24, which are all represented by one byte CBOR ints.  Other
    byte strings are encoded as CBOR byte strings.
 
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 21]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    For example, the byte string h'59e9' encoded as a bstr_identifier is
    equal to h'59e9', while the byte string h'2a' is encoded as the
    integer 18.
@@ -1199,6 +1223,16 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    fails for some reason, the protocol is by default discontinued and
    the protocol state is erased.  (The case when the transport does not
    support message de-duplication is addressed in Appendix D.)
+
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 22]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    The protocol state can be identified by a received connection
    identifier (Section 3.2.2) or with message correlation provided by
@@ -1226,14 +1260,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    suite = int
 
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 22]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    where:
 
    *  an initial CBOR simple value "null" (= 0xf6) MAY be used to
@@ -1254,6 +1280,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       instead of an array.
 
    *  G_X - the ephemeral public key of the Initiator
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 23]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    *  C_I - variable length connection identifier, encoded as a
       bstr_identifier (see Section 5.1).
@@ -1280,16 +1315,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       use that cipher suite.  Otherwise the first supported (i.e. the
       most preferred) cipher suite in SUITES_I MUST be used.
 
-
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 23]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    *  Generate an ephemeral ECDH key pair as specified in Section 5 of
       [SP-800-56A] using the curve in the selected cipher suite and
       format it as a COSE_Key.  Let G_X be the 'x' parameter of the
@@ -1311,6 +1336,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       prior cipher suite in SUITES_I is supported.
 
    *  Pass AD_1 to the security application.
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 24]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    If any verification step fails, the Responder MUST send an EDHOC
    error message back, formatted as defined in Section 6, and the
@@ -1339,13 +1373,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
      C_R : bstr_identifier,
    )
 
-
-
-Selander, et al.         Expires 3 October 2021                [Page 24]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    where:
 
    *  G_Y - the ephemeral public key of the Responder
@@ -1367,6 +1394,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  Choose a connection identifier C_R and store it for the length of
       the protocol.
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 25]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    *  Compute the transcript hash TH_2 = H(message_1, data_2) where H()
       is the hash function in the selected cipher suite.  The transcript
@@ -1395,13 +1429,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
       -  Key K = EDHOC-KDF( PRK_3e2m, TH_2, "K_2m", length )
 
-
-
-Selander, et al.         Expires 3 October 2021                [Page 25]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
       -  Nonce N = EDHOC-KDF( PRK_3e2m, TH_2, "IV_2m", length )
 
       -  Plaintext P = 0x (the empty string)
@@ -1423,6 +1450,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       -  protected = << ID_CRED_R >>
 
       -  external_aad = << TH_2, CRED_R, ? AD_2 >>
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 26]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
       -  payload = MAC_2
 
@@ -1451,13 +1485,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  Encode message_2 as a sequence of CBOR encoded data items as
       specified in Section 5.4.1.
 
-
-
-Selander, et al.         Expires 3 October 2021                [Page 26]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
 5.4.3.  Initiator Processing of Message 2
 
    The Initiator SHALL process message_2 as follows:
@@ -1478,6 +1505,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       Section 5.4.2.
 
    *  Pass AD_2 to the security application.
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 27]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    If any verification step fails, the Initiator MUST send an EDHOC
    error message back, formatted as defined in Section 6, and the
@@ -1506,14 +1541,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  If corr (METHOD_CORR mod 4) equals 2 or 3, C_R is omitted,
       otherwise C_R is not omitted.
 
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 27]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    *  Compute the transcript hash TH_3 = H(TH_2 , CIPHERTEXT_2, data_3)
       where H() is the hash function in the the selected cipher suite.
       The transcript hash TH_3 is a CBOR encoded bstr and the input to
@@ -1534,6 +1561,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
             see Section 3.3.4.
 
          o  AD_3 = bstr containing opaque protected auxiliary data
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 28]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
       -  plaintext = h''
 
@@ -1563,13 +1598,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
       -  external_aad = << TH_3, CRED_I, ? AD_3 >>
 
-
-
-Selander, et al.         Expires 3 October 2021                [Page 28]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
       -  payload = MAC_3
 
       COSE constructs the input to the Signature Algorithm as:
@@ -1590,6 +1618,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
       -  plaintext = ( ID_CRED_I / bstr_identifier, Signature_or_MAC_3,
          ? AD_3 )
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 29]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
          o  Note that if ID_CRED_I contains a single 'kid' parameter,
             i.e., ID_CRED_I = { 4 : kid_I }, only the byte string kid_I
@@ -1617,15 +1652,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    application can now derive application keys using the EDHOC-Exporter
    interface.
 
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 29]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    After sending message_3, the Initiator is assured that no other party
    than the Responder can compute the key PRK_4x3m (implicit key
    authentication).  The Initiator does however not know that the
@@ -1646,6 +1672,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  Retrieve the protocol state using the connection identifier C_R
       and/or other external information such as the CoAP Token and the
       5-tuple.
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 30]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    *  Decrypt and verify the outer COSE_Encrypt0 as defined in
       Section 5.3 of [RFC8152], with the EDHOC AEAD algorithm in the
@@ -1673,20 +1708,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    Responder can securely send protected application data and store the
    keying material PRK_4x3m and TH_4.
 
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 30]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
 6.  Error Handling
 
-6.1.  EDHOC Error Message
-
-   This section defines a message format for the EDHOC error message.
+   This section defines the format for error messages.
 
    An EDHOC error message can be sent by either endpoint as a reply to
    any non-error EDHOC message.  How errors at the EDHOC layer are
@@ -1707,11 +1731,20 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    error SHALL be a CBOR Sequence (see Appendix A.1) as defined below
 
+
+
+Selander, et al.         Expires 8 October 2021                [Page 31]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
    error = (
      ? C_x : bstr_identifier,
-     DIAG_MSG : tstr,
-     ? SUITES_R : [ supported : 2* suite ] / suite,
+     ERR_CODE : int,
+     ERR_INFO : any
    )
+
+                       Figure 5: EDHOC Error Message
 
    where:
 
@@ -1722,31 +1755,74 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       (METHOD_CORR mod 4) equals 0 or 1 then C_x is set to C_R, else C_x
       is omitted.
 
-   *  DIAG_MSG - text string containing the diagnostic message in
-      English.  MUST NOT be the empty string unless the error message
-      contains SUITES_R.
+   *  ERR_CODE - error code encoded as an integer.
+
+   *  ERR_INFO - error information.  Content and encoding depend on
+      error code.
+
+   The remainder of this section specifies the currently defined error
+   codes, see Figure 6.  Error codes 1, 0 and -1 MUST be supported.
+   Additional error codes and corresponding error information may be
+   specified.
+
+   +----------+---------------+----------------------------------------+
+   | ERR_CODE | ERR_INFO Type | Description                            |
+   +==========+===============+========================================+
+   |       -1 | TBD           | Success                                |
+   +----------+---------------+----------------------------------------+
+   |        0 | tstr          | Unspecified                            |
+   +----------+---------------+----------------------------------------+
+   |        1 | SUITES_R      | Wrong selected cipher suite            |
+   +----------+---------------+----------------------------------------+
+
+                Figure 6: Error Codes and Error Information
+
+6.1.  Success (ERR_CODE == -1)
+
+   TBD
+
+6.2.  Unspecified (ERR_CODE == 0)
+
+   Error code 0 is used for unspecified errors and contain a diagnostic
+   message.
 
 
 
 
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 31]
+Selander, et al.         Expires 8 October 2021                [Page 32]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
-   *  SUITES_R - (optional) cipher suites from SUITES_I or the EDHOC
-      cipher suites registry that the Responder supports.  SUITES_R MUST
-      only be included in replies to message_1.  If a single supported
-      cipher suite is conveyed then the supported cipher suite is
-      encoded as an int instead of an array.
+   For error messages with ERR_CODE == 0, ERR_INFO MUST be a text string
+   containing a human-readable diagnostic message written in English.
+   The diagnostic text message is mainly intended for software engineers
+   that during debugging need to interpret it in the context of the
+   EDHOC specification.  The diagnostic message SHOULD be be provided to
+   the calling application where it SHOULD be logged.
 
-   After receiving SUITES_R, the Initiator can determine which selected
-   cipher suite to use for the next EDHOC run with the Responder.  If
-   the Initiator intends to contact the Responder in the future, the
+6.3.  Wrong Selected Cipher Suite (ERR_CODE == 1)
+
+   Error code 1 MUST only be used in a response to message_1 in case the
+   cipher suite selected by the Initiator is not supported by the
+   Responder, or if the Responder supports a cipher suite more preferred
+   by the Initiator than the selected cipher suite, see Section 5.3.
+
+   ERR_INFO is of type SUITES_R:
+
+   SUITES_R : [ supported : 2* suite ] / suite
+
+   SUITES_R contains all cipher suites which the Responder supports, not
+   restricted to a subset of SUITES_I.  If a single supported cipher
+   suite is conveyed with SUITES_R then the supported cipher suite is
+   encoded as an int instead of an array.
+
+6.3.1.  Cipher Suite Negotiation
+
+   After receiving SUITES_R, the Initiator can determine which cipher
+   suite to select for the next EDHOC run with the Responder.
+
+   If the Initiator intends to contact the Responder in the future, the
    Initiator SHOULD remember which selected cipher suite to use until
    the next message_1 has been sent, otherwise the Initiator and
    Responder will likely run into an infinite loop.  After a successful
@@ -1755,41 +1831,21 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    updated with new cipher suite policies, any cached information may be
    outdated.
 
-   Error messages without SUITES_R MUST contain a human-readable
-   diagnostic message DIAG_MSG written in English, explaning the error
-   situation.  The diagnostic text message is mainly intended for
-   software engineers that during debugging need to interpret it in the
-   context of the EDHOC specification.  The diagnostic message SHOULD be
-   be provided to the calling application where they SHOULD be logged.
-   Error messages with SUITES_R MAY use the empty string as the
-   diagnostic message.  The DIAG_MSG text string is mandatory and
-   characteristic for error messages, which enables the receiver to
-   distinguish between a normal message and an error message.
-
-6.1.1.  Example Use of EDHOC Error Message with SUITES_R
+6.3.2.  Example
 
    Assume that the Initiator supports the five cipher suites 5, 6, 7, 8,
-   and 9 in decreasing order of preference.  Figures 5 and 6 show
+   and 9 in decreasing order of preference.  Figures 7 and 8 show
    examples of how the Initiator can truncate SUITES_I and how SUITES_R
    is used by Responders to give the Initiator information about the
    cipher suites that the Responder supports.
 
-   In the first example (Figure 5), the Responder supports cipher suite
+   In the first example (Figure 7), the Responder supports cipher suite
    6 but not the initially selected cipher suite 5.
 
 
 
 
-
-
-
-
-
-
-
-
-
-Selander, et al.         Expires 3 October 2021                [Page 32]
+Selander, et al.         Expires 8 October 2021                [Page 33]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -1807,18 +1863,19 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    +------------------------------------------------------------------>|
    |                             message_1                             |
 
-     Figure 5: Example of Responder supporting suite 6 but not suite 5.
+     Figure 7: Example of Responder supporting suite 6 but not suite 5.
 
-   In the second example (Figure 6), the Responder supports cipher
+   In the second example (Figure 8), the Responder supports cipher
    suites 8 and 9 but not the more preferred (by the Initiator) cipher
    suites 5, 6 or 7.  To illustrate the negotiation mechanics we let the
-   Initiator make a guess that the Responder supports suite 6 but not
-   suite 5.  Since the Responder supports neither 5 nor 6, it responds
-   with an error and SUITES_R, after which the Initiator can select a
-   better suite.  The order of cipher suites in SUITES_R does not
-   matter.  (If the Responder had supported suite 5, it would include it
-   in SUITES_R of the response, and it would in that case be the
-   selected suite in the second message_1.)
+   Initiator first make a guess that the Responder supports suite 6 but
+   not suite 5.  Since the Responder supports neither 5 nor 6, it
+   responds with an error and SUITES_R, after which the Initiator
+   selects its most preferred supported suite.  The order of cipher
+   suites in SUITES_R does not matter.  (If the Responder had supported
+   suite 5, it would include it in SUITES_R of the response, and it
+   would in that case have become the selected suite in the second
+   message_1.)
 
    Initiator                                                   Responder
    |        METHOD_CORR, SUITES_I = [6, 5, 6], G_X, C_I, AD_1          |
@@ -1833,7 +1890,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    +------------------------------------------------------------------>|
    |                             message_1                             |
 
-      Figure 6: Example of Responder supporting suites 8 and 9 but not
+      Figure 8: Example of Responder supporting suites 8 and 9 but not
                                  5, 6 or 7.
 
 
@@ -1844,8 +1901,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-
-Selander, et al.         Expires 3 October 2021                [Page 33]
+Selander, et al.         Expires 8 October 2021                [Page 34]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -1901,7 +1957,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 34]
+Selander, et al.         Expires 8 October 2021                [Page 35]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -1957,7 +2013,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 35]
+Selander, et al.         Expires 8 October 2021                [Page 36]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -1995,7 +2051,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    in the payload of a 2.04 (Changed) response analogously to message_2.
 
    An example of a successful EDHOC exchange using CoAP is shown in
-   Figure 7.  In this case the CoAP Token enables the Initiator to
+   Figure 9.  In this case the CoAP Token enables the Initiator to
    correlate message_1 and message_2 so the correlation parameter corr =
    1.
 
@@ -2013,7 +2069,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 36]
+Selander, et al.         Expires 8 October 2021                [Page 37]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2038,14 +2094,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
                |   2.04   |
                |          |
 
-      Figure 7: Transferring EDHOC in CoAP when the Initiator is CoAP
+      Figure 9: Transferring EDHOC in CoAP when the Initiator is CoAP
                                    Client
 
-   The exchange in Figure 7 protects the client identity against active
+   The exchange in Figure 9 protects the client identity against active
    attackers and the server identity against passive attackers.  An
    alternative exchange that protects the server identity against active
    attackers and the client identity against passive attackers is shown
-   in Figure 8.  In this case the CoAP Token enables the Responder to
+   in Figure 10.  In this case the CoAP Token enables the Responder to
    correlate message_2 and message_3 so the correlation parameter corr =
    2.  If EDHOC message_4 is used, it is transported with CoAP in the
    payload of a POST request with a 2.04 (Changed) response.
@@ -2069,7 +2125,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 37]
+Selander, et al.         Expires 8 October 2021                [Page 38]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2093,7 +2149,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
                |          | Payload: EDHOC message_3
                |          |
 
-      Figure 8: Transferring EDHOC in CoAP when the Initiator is CoAP
+      Figure 10: Transferring EDHOC in CoAP when the Initiator is CoAP
                                    Server
 
    To protect against denial-of-service attacks, the CoAP server MAY
@@ -2125,7 +2181,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 38]
+Selander, et al.         Expires 8 October 2021                [Page 39]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2181,7 +2237,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 39]
+Selander, et al.         Expires 8 October 2021                [Page 40]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2237,7 +2293,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 40]
+Selander, et al.         Expires 8 October 2021                [Page 41]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2293,7 +2349,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 41]
+Selander, et al.         Expires 8 October 2021                [Page 42]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2349,7 +2405,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 42]
+Selander, et al.         Expires 8 October 2021                [Page 43]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2405,7 +2461,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 43]
+Selander, et al.         Expires 8 October 2021                [Page 44]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2461,7 +2517,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 44]
+Selander, et al.         Expires 8 October 2021                [Page 45]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2517,7 +2573,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 45]
+Selander, et al.         Expires 8 October 2021                [Page 46]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2573,7 +2629,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 46]
+Selander, et al.         Expires 8 October 2021                [Page 47]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2629,7 +2685,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 47]
+Selander, et al.         Expires 8 October 2021                [Page 48]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2685,7 +2741,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 48]
+Selander, et al.         Expires 8 October 2021                [Page 49]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2741,7 +2797,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 49]
+Selander, et al.         Expires 8 October 2021                [Page 50]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2797,7 +2853,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 50]
+Selander, et al.         Expires 8 October 2021                [Page 51]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2853,7 +2909,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 51]
+Selander, et al.         Expires 8 October 2021                [Page 52]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2909,7 +2965,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 52]
+Selander, et al.         Expires 8 October 2021                [Page 53]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -2965,7 +3021,7 @@ Appendix A.  Use of CBOR, CDDL and COSE in EDHOC
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 53]
+Selander, et al.         Expires 8 October 2021                [Page 54]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3021,7 +3077,7 @@ A.2.  COSE
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 54]
+Selander, et al.         Expires 8 October 2021                [Page 55]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3077,7 +3133,7 @@ B.1.  Test Vectors for EDHOC Authenticated with Signature Keys (x5t)
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 55]
+Selander, et al.         Expires 8 October 2021                [Page 56]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3133,7 +3189,7 @@ B.1.1.  Message_1
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 56]
+Selander, et al.         Expires 8 October 2021                [Page 57]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3189,7 +3245,7 @@ B.1.2.  Message_2
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 57]
+Selander, et al.         Expires 8 October 2021                [Page 58]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3245,7 +3301,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 58]
+Selander, et al.         Expires 8 October 2021                [Page 59]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3301,7 +3357,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 59]
+Selander, et al.         Expires 8 October 2021                [Page 60]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3357,7 +3413,7 @@ A_2m =
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 60]
+Selander, et al.         Expires 8 October 2021                [Page 61]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3413,7 +3469,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 61]
+Selander, et al.         Expires 8 October 2021                [Page 62]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3469,7 +3525,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 62]
+Selander, et al.         Expires 8 October 2021                [Page 63]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3525,7 +3581,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 63]
+Selander, et al.         Expires 8 October 2021                [Page 64]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3581,7 +3637,7 @@ B.1.3.  Message_3
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 64]
+Selander, et al.         Expires 8 October 2021                [Page 65]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3637,7 +3693,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 65]
+Selander, et al.         Expires 8 October 2021                [Page 66]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3693,7 +3749,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 66]
+Selander, et al.         Expires 8 October 2021                [Page 67]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3749,7 +3805,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 67]
+Selander, et al.         Expires 8 October 2021                [Page 68]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3805,7 +3861,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 68]
+Selander, et al.         Expires 8 October 2021                [Page 69]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3861,7 +3917,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 69]
+Selander, et al.         Expires 8 October 2021                [Page 70]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3917,7 +3973,7 @@ message_3 =
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 70]
+Selander, et al.         Expires 8 October 2021                [Page 71]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -3973,7 +4029,7 @@ B.1.4.  OSCORE Security Context Derivation
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 71]
+Selander, et al.         Expires 8 October 2021                [Page 72]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4029,7 +4085,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 72]
+Selander, et al.         Expires 8 October 2021                [Page 73]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4085,7 +4141,7 @@ B.2.1.  Message_1
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 73]
+Selander, et al.         Expires 8 October 2021                [Page 74]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4141,7 +4197,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 74]
+Selander, et al.         Expires 8 October 2021                [Page 75]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4197,7 +4253,7 @@ B.2.2.  Message_2
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 75]
+Selander, et al.         Expires 8 October 2021                [Page 76]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4253,7 +4309,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 76]
+Selander, et al.         Expires 8 October 2021                [Page 77]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4309,7 +4365,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 77]
+Selander, et al.         Expires 8 October 2021                [Page 78]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4365,7 +4421,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 78]
+Selander, et al.         Expires 8 October 2021                [Page 79]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4421,7 +4477,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 79]
+Selander, et al.         Expires 8 October 2021                [Page 80]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4477,7 +4533,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 80]
+Selander, et al.         Expires 8 October 2021                [Page 81]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4533,7 +4589,7 @@ B.2.3.  Message_3
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 81]
+Selander, et al.         Expires 8 October 2021                [Page 82]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4589,7 +4645,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 82]
+Selander, et al.         Expires 8 October 2021                [Page 83]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4645,7 +4701,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 83]
+Selander, et al.         Expires 8 October 2021                [Page 84]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4701,7 +4757,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 84]
+Selander, et al.         Expires 8 October 2021                [Page 85]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4757,7 +4813,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 85]
+Selander, et al.         Expires 8 October 2021                [Page 86]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4813,7 +4869,7 @@ B.2.4.  OSCORE Security Context Derivation
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 86]
+Selander, et al.         Expires 8 October 2021                [Page 87]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4869,7 +4925,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 87]
+Selander, et al.         Expires 8 October 2021                [Page 88]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4925,7 +4981,7 @@ Appendix C.  Applicability Template
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 88]
+Selander, et al.         Expires 8 October 2021                [Page 89]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -4981,7 +5037,7 @@ Authors' Addresses
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 89]
+Selander, et al.         Expires 8 October 2021                [Page 90]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
@@ -5037,4 +5093,4 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-Selander, et al.         Expires 3 October 2021                [Page 90]
+Selander, et al.         Expires 8 October 2021                [Page 91]
