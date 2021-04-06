@@ -130,8 +130,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
            Diffie-Hellman Keys . . . . . . . . . . . . . . . . . . .  74
    Appendix C.  Applicability Template . . . . . . . . . . . . . . .  89
    Appendix D.  Lack of Message De-duplication . . . . . . . . . . .  90
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  90
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  90
+   Appendix E.  Change Log . . . . . . . . . . . . . . . . . . . . .  90
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  92
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  92
 
 1.  Introduction
 
@@ -160,7 +161,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    firmware update.  Some IoT deployments also need to support a variety
    of underlying transport technologies, potentially even with a single
    connection.
-
 
 
 
@@ -5004,6 +5004,100 @@ Appendix D.  Lack of Message De-duplication
 
    TBD
 
+Appendix E.  Change Log
+
+   Main changes:
+
+   *  From -04 to -05:
+
+      -  EDHOC-Rekey-FS -> EDHOC-KeyUpdate
+
+      -  Clarification of cipher suite negotiation
+
+      -  Updated security considerations
+
+      -  Updated test vectors
+
+      -  Updated applicability statement template
+
+   *  From -03 to -04:
+
+      -  Restructure of section 1
+
+      -  Added references to CBOR Certificates
+
+      -  Change in CIPHERTEXT_2 -> plaintext XOR KEYSTREAM_2 (test
+         vector not updated)
+
+      -  "K_2e", "IV_2e" -> KEYSTREAM_2
+
+      -  Specified optional message 4
+
+      -  EDHOC-Exporter-FS -> EDHOC-Rekey-FS
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 90]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
+      -  Less constrained devices SHOULD implement both suite 0 and 2
+
+      -  Clarification of error message
+
+      -  Added exporter interface test vector
+
+   *  From -02 to -03:
+
+      -  Rearrangements of section 3 and beginning of section 4
+
+      -  Key derivation new section 4
+
+      -  Cipher suites 4 and 5 added
+
+      -  EDHOC-EXPORTER-FS - generate a new PRK_4x3m from a old one
+
+      -  Change in CIPHERTEXT_2 -> COSE_Encrypt0 without tag (no change
+         to test vector)
+
+      -  Clarification of error message
+
+      -  New appendix C applicability statement
+
+   *  From -01 to -02:
+
+      -  New section 1.2 Use of EDHOC
+
+      -  Clarification of identities
+
+      -  New section 4.3 clarifying bstr_identifier
+
+      -  Updated security considerations
+
+      -  Updated text on cipher suite negotiation and key confirmation
+
+      -  Test vector for static DH
+
+   *  From -00 to -01:
+
+      -  Removed PSK method
+
+      -  Removed references to certificate by value
+
+
+
+
+
+
+
+
+
+Selander, et al.         Expires 8 October 2021                [Page 91]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
 Acknowledgments
 
    The authors want to thank Alessandro Bruni, Karthikeyan Bhargavan,
@@ -5035,13 +5129,6 @@ Authors' Addresses
    Email: john.mattsson@ericsson.com
 
 
-
-
-Selander, et al.         Expires 8 October 2021                [Page 90]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    Francesca Palombini
    Ericsson AB
 
@@ -5062,35 +5149,4 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Selander, et al.         Expires 8 October 2021                [Page 91]
+Selander, et al.         Expires 8 October 2021                [Page 92]
