@@ -1273,10 +1273,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  SUITES_I - cipher suites which the Initiator supports in order of
       (decreasing) preference.  The list of supported cipher suites can
       be truncated at the end, as is detailed in the processing steps
-      below.  One of the supported cipher suites is selected.  The
-      selected suite is the first suite in the SUITES_I CBOR array.  If
-      a single supported cipher suite is conveyed then that cipher suite
-      is selected and the selected cipher suite is encoded as an int
+      below and Section 6.3.  One of the supported cipher suites is
+      selected.  The selected suite is the first suite in the SUITES_I
+      CBOR array.  If a single supported cipher suite is conveyed then
+      that cipher suite is selected and SUITES_I is encoded as an int
       instead of an array.
 
    *  G_X - the ephemeral public key of the Initiator
@@ -1308,12 +1308,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       more preferred than the least preferred cipher suite in the list
       MUST be included in the list.
 
-   *  Determine the cipher suite to use with the Responder in message_1.
-      If the Initiator previously received from the Responder an error
-      message to a message_1 with diagnostic payload identifying a
-      cipher suite that the Initiator supports, then the Initiator SHALL
-      use that cipher suite.  Otherwise the first supported (i.e. the
-      most preferred) cipher suite in SUITES_I MUST be used.
+   *  The Initiator MUST select its most preferred cipher suite,
+      conditioned on what it can assume to be supported by the
+      Responder.  If the Initiator previously received from the
+      Responder an error message with error code 1 (see Section 6.3)
+      indicating cipher suites supported by the Responder which also are
+      supported by the Initiator, then the Initiator SHALL select the
+      most preferred cipher suite of those.
 
    *  Generate an ephemeral ECDH key pair as specified in Section 5 of
       [SP-800-56A] using the curve in the selected cipher suite and
@@ -1336,7 +1337,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       prior cipher suite in SUITES_I is supported.
 
    *  Pass AD_1 to the security application.
-
 
 
 
@@ -1813,9 +1813,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    SUITES_R : [ supported : 2* suite ] / suite
 
    SUITES_R contains all cipher suites which the Responder supports, not
-   restricted to a subset of SUITES_I.  If a single supported cipher
-   suite is conveyed with SUITES_R then the supported cipher suite is
-   encoded as an int instead of an array.
+   restricted to SUITES_I.  If a single supported cipher suite is
+   conveyed with SUITES_R then the supported cipher suite is encoded as
+   an int instead of an array.
 
 6.3.1.  Cipher Suite Negotiation
 
@@ -1831,7 +1831,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    updated with new cipher suite policies, any cached information may be
    outdated.
 
-6.3.2.  Example
+6.3.2.  Examples
 
    Assume that the Initiator supports the five cipher suites 5, 6, 7, 8,
    and 9 in decreasing order of preference.  Figures 7 and 8 show
