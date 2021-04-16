@@ -980,6 +980,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
        protected application message is sent from the Responder to the
        Initiator; see Section 7.1.
 
+   The applicability statement may also contain information about
+   supported cipher suites.  The procedure for selecting and and
+   verifying cipher suite is still performed as specified by the
+   protocol, but it may become simplified by this knowledge.
+
    An example of an applicability statement is shown in Appendix C.
 
    For some parameters, like METHOD_CORR, ID_CRED_x, type of AD_x, the
@@ -996,11 +1001,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    the protocol) then both endpoints need to use an identical data
    structure as CRED_I or else the integrity verification will fail.
 
-   Note that it is not necessary for the endpoints to specify a single
-   transport for the EDHOC messages.  For example, a mix of CoAP and
-   HTTP may be used along the path, and this may still allow correlation
-   between messages.
-
 
 
 
@@ -1009,6 +1009,11 @@ Selander, et al.         Expires 18 October 2021               [Page 18]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
+
+   Note that it is not necessary for the endpoints to specify a single
+   transport for the EDHOC messages.  For example, a mix of CoAP and
+   HTTP may be used along the path, and this may still allow correlation
+   between messages.
 
    The applicability statement may be dependent on the identity of the
    other endpoint, but this applies only to the later phases of the
@@ -1054,17 +1059,16 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       purposes, not providing the salt is the same as setting the salt
       to the empty byte string.
 
-   *  The input keying material (IKM) SHALL be the ECDH shared secret
-      G_XY (calculated from G_X and Y or G_Y and X) as defined in
-      Section 6.3.1 of [I-D.ietf-cose-rfc8152bis-algs].
-
-
 
 
 Selander, et al.         Expires 18 October 2021               [Page 19]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
+
+   *  The input keying material (IKM) SHALL be the ECDH shared secret
+      G_XY (calculated from G_X and Y or G_Y and X) as defined in
+      Section 6.3.1 of [I-D.ietf-cose-rfc8152bis-algs].
 
    Example: Assuming the use of SHA-256 the extract phase of HKDF
    produces PRK_2e as follows:
@@ -1108,10 +1112,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    ]
 
    where
-
-
-
-
 
 
 
