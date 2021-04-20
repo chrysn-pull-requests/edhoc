@@ -964,7 +964,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
        information about the optional connection identifier fields.
 
    3.  How message_1 is identified, in particular if the optional
-       initial "null" of message_1 is present; see Section 5.3.1
+       initial C_1 = "null" of message_1 is present; see Section 5.3.1
 
    4.  Authentication credentials (CRED_I, CRED_R; see Section 3.3.3).
 
@@ -1249,7 +1249,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    state.
 
    If there is no protocol state, in the case of message_1, a new
-   protocol state is created.  An initial "null" byte in message_1
+   protocol state is created.  An initial C_1 = "null" byte in message_1
    (Section 5.3.1) can be used to distinguish message_1 from other
    messages.  The Responder endpoint needs to make use of available
    Denial-of-Service mitigation (Section 8.5).
@@ -1310,7 +1310,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    where:
 
-   *  C_1 - an initial CBOR simple value null (= 0xf6) MAY be used to
+   *  C_1 - an initial CBOR simple value "null" (= 0xf6) MAY be used to
       distinguish message_1 from other messages.  The applicability
       statement (Section 3.7) specifies whether this field is present or
       not.
@@ -5108,7 +5108,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  EDHOC requests are expected by the server at /app1-edh, no
       Content-Format needed.
 
-   *  "null" is used to identify message_1
+   *  C_1 = "null" is present to identify message_1
 
    *  CRED_I is an 802.1AR IDevID encoded as a CBOR Certificate of type
       0 [I-D.mattsson-cose-cbor-cert-compress].
