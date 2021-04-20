@@ -296,7 +296,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    algorithms [I-D.ietf-cose-rfc8152bis-algs], and CDDL [RFC8610].  The
    Concise Data Definition Language (CDDL) is used to express CBOR data
    structures [RFC8949].  Examples of CBOR and CDDL are provided in
-   Appendix A.1.  When reffering to CBOR, this specification always
+   Appendix A.1.  When referring to CBOR, this specification always
    refer to Deterministically Encoded CBOR as specified in Sections
    4.2.1 and 4.2.2 of [RFC8949].
 
