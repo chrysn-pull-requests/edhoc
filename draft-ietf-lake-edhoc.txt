@@ -3218,12 +3218,12 @@ A.3.  COSE
 
 Appendix B.  Test Vectors
 
-   This appendix provides detailed test vectors based on v-05 of this
-   specification, to ease implementation and ensure interoperability.
-   In addition to hexadecimal, all CBOR data items and sequences are
-   given in CBOR diagnostic notation.  The test vectors use the default
-   mapping to CoAP where the Initiator acts as CoAP client (this means
-   that corr = 1).
+   This appendix provides detailed test vectors compatible with versions
+   -05 and -06 of this specification, to ease implementation and ensure
+   interoperability.  In addition to hexadecimal, all CBOR data items
+   and sequences are given in CBOR diagnostic notation.  The test
+   vectors use the default mapping to CoAP where the Initiator acts as
+   CoAP client (this means that corr = 1).
 
    A more extensive test vector suite covering more combinations of
    authentication method used between Initiator and Responder and
@@ -3254,7 +3254,8 @@ B.1.  Test Vectors for EDHOC Authenticated with Signature Keys (x5t)
 
    EDHOC with signature authentication and X.509 certificates is used.
    In this test vector, the hash value 'x5t' is used to identify the
-   certificate.  No auxiliary data is sent in the message exchange.
+   certificate.  The optional C_1 in message_1 is omitted.  No auxiliary
+   data is sent in the message exchange.
 
    method (Signature Authentication)
    0
@@ -3296,7 +3297,6 @@ B.1.1.  Message_1
  02 59 d9 04 b7 ec 8b 0c
 
    The Initiator chooses a connection identifier C_I:
-
 
 
 
@@ -4222,7 +4222,8 @@ B.2.  Test Vectors for EDHOC Authenticated with Static Diffie-Hellman
 
    EDHOC with static Diffie-Hellman keys and raw public keys is used.
    In this test vector, a key identifier is used to identify the raw
-   public key.  No auxiliary data is sent in the message exchange.
+   public key.  The optional C_1 in message_1 is omitted.  No auxiliary
+   data is sent in the message exchange.
 
    method (Static DH Based Authentication)
    3
@@ -4248,8 +4249,7 @@ B.2.  Test Vectors for EDHOC Authenticated with Static Diffie-Hellman
    Selected Cipher Suite (int)
    0
 
-   Cipher suite 0 is supported by both the Initiator and the Responder,
-   see Section 3.4.
+
 
 
 
@@ -4257,6 +4257,9 @@ Selander, et al.         Expires 22 October 2021               [Page 76]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
+
+   Cipher suite 0 is supported by both the Initiator and the Responder,
+   see Section 3.4.
 
 B.2.1.  Message_1
 
@@ -4299,9 +4302,6 @@ B.2.1.  Message_1
 
    message_1 is constructed as the CBOR Sequence of the data items above
    encoded as CBOR.  In CBOR diagnostic notation:
-
-
-
 
 
 
