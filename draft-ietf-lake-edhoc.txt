@@ -1298,11 +1298,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    below
 
    message_1 = (
-     ? null : bstr,
+     ? C_1 : null,
      METHOD_CORR : int,
      SUITES_I : [ selected : suite, supported : 2* suite ] / suite,
      G_X : bstr,
-     C_I : bstr / int,
+     C_I : bstr_identifier,
      ? AD_1 : bstr,
    )
 
@@ -1310,7 +1310,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    where:
 
-   *  an initial CBOR simple value null (= 0xf6) MAY be used to
+   *  C_1 - an initial CBOR simple value null (= 0xf6) MAY be used to
       distinguish message_1 from other messages.  The applicability
       statement (Section 3.7) specifies whether this field is present or
       not.
@@ -1331,10 +1331,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  G_X - the ephemeral public key of the Initiator
 
-   *  C_I - variable length connection identifier, either a bstr or int.
+   *  C_I - variable length connection identifier, encoded as a
+      bstr_identifier (see Section 5.1).
 
    *  AD_1 - bstr containing unprotected opaque auxiliary data
-
 
 
 
@@ -1419,16 +1419,17 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    )
 
    data_2 = (
-     ? C_I : bstr / int,
+     ? C_I : bstr_identifier,
      G_Y : bstr,
-     C_R : bstr / int,
+     C_R : bstr_identifier,
    )
 
    where:
 
    *  G_Y - the ephemeral public key of the Responder
 
-   *  C_R - variable length connection identifier, either a bstr or int.
+   *  C_R - variable length connection identifier, encoded as a
+      bstr_identifier (see Section 5.1).
 
 5.4.2.  Responder Processing of Message 2
 
@@ -1449,7 +1450,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       is the hash function in the selected cipher suite.  The transcript
       hash TH_2 is a CBOR encoded bstr and the input to the hash
       function is a CBOR Sequence.
-
 
 
 
@@ -1587,7 +1587,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    )
 
    data_3 = (
-     ? C_R : bstr / int,
+     ? C_R : bstr_identifier,
    )
 
 5.5.2.  Initiator Processing of Message 3
@@ -1805,7 +1805,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    error SHALL be a CBOR Sequence (see Appendix A.1) as defined below
 
    error = (
-     ? C_x : bstr / int,
+     ? C_x : bstr_identifier,
      ERR_CODE : int,
      ERR_INFO : any
    )
@@ -1814,11 +1814,12 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    where:
 
-   *  C_x - (optional) variable length connection identifier, either a
-      bstr or int.  If error is sent by the Responder and corr
-      (METHOD_CORR mod 4) equals 0 or 2 then C_x is set to C_I, else if
-      error is sent by the Initiator and corr (METHOD_CORR mod 4) equals
-      0 or 1 then C_x is set to C_R, else C_x is omitted.
+   *  C_x - (optional) variable length connection identifier, encoded as
+      a bstr_identifier (see Section 5.1).  If error is sent by the
+      Responder and corr (METHOD_CORR mod 4) equals 0 or 2 then C_x is
+      set to C_I, else if error is sent by the Initiator and corr
+      (METHOD_CORR mod 4) equals 0 or 1 then C_x is set to C_R, else C_x
+      is omitted.
 
    *  ERR_CODE - error code encoded as an integer.
 
@@ -1841,7 +1842,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    +----------+---------------+----------------------------------------+
 
                 Figure 6: Error Codes and Error Information
-
 
 
 
@@ -2031,7 +2031,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    )
 
    data_4 = (
-     ? C_I : bstr / int,
+     ? C_I : bstr_identifier,
    )
 
 7.1.2.  Responder Processing of Message 4
