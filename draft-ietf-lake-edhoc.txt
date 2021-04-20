@@ -1331,10 +1331,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  G_X - the ephemeral public key of the Initiator
 
-   *  C_I - variable length connection identifier, encoded as a bstr or
-      int.
+   *  C_I - variable length connection identifier, either a bstr or int.
 
    *  AD_1 - bstr containing unprotected opaque auxiliary data
+
 
 
 
@@ -1428,8 +1428,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  G_Y - the ephemeral public key of the Responder
 
-   *  C_R - variable length connection identifier, encoded as a bstr or
-      int.
+   *  C_R - variable length connection identifier, either a bstr or int.
 
 5.4.2.  Responder Processing of Message 2
 
@@ -1450,6 +1449,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       is the hash function in the selected cipher suite.  The transcript
       hash TH_2 is a CBOR encoded bstr and the input to the hash
       function is a CBOR Sequence.
+
 
 
 
@@ -1814,8 +1814,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    where:
 
-   *  C_x - (optional) variable length connection identifier, encoded as
-      a bstr or int.  If error is sent by the Responder and corr
+   *  C_x - (optional) variable length connection identifier, either a
+      bstr or int.  If error is sent by the Responder and corr
       (METHOD_CORR mod 4) equals 0 or 2 then C_x is set to C_I, else if
       error is sent by the Initiator and corr (METHOD_CORR mod 4) equals
       0 or 1 then C_x is set to C_R, else C_x is omitted.
