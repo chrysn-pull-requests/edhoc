@@ -84,7 +84,7 @@ Table of Contents
    5.  Message Formatting and Processing . . . . . . . . . . . . . .  22
      5.1.  Encoding of bstr_identifier . . . . . . . . . . . . . . .  22
      5.2.  Message Processing Outline  . . . . . . . . . . . . . . .  23
-     5.3.  EDHOC Message 1 . . . . . . . . . . . . . . . . . . . . .  24
+     5.3.  EDHOC Message 1 . . . . . . . . . . . . . . . . . . . . .  23
      5.4.  EDHOC Message 2 . . . . . . . . . . . . . . . . . . . . .  26
      5.5.  EDHOC Message 3 . . . . . . . . . . . . . . . . . . . . .  29
    6.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . .  32
@@ -1246,23 +1246,20 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    transported, identified and processed.
 
    EDHOC messages SHALL be processed according to the current protocol
-   state.
-
-   If there is no protocol state, in the case of message_1, a new
-   protocol state is created.  An initial C_1 = "null" byte in message_1
-   (Section 5.3.1) can be used to distinguish message_1 from other
-   messages.  The Responder endpoint needs to make use of available
-   Denial-of-Service mitigation (Section 8.5).
-
-   Except for message_1, the following steps are expected to be
-   performed at reception of an EDHOC message:
+   state.  The following steps are expected to be performed at reception
+   of an EDHOC message:
 
    1.  Detect that an EDHOC message has been received, for example by
-       means of URI or media type (Section 3.7).
+       means of port number, URI, or media type (Section 3.7).
 
    2.  Retrieve the protocol state, e.g. using the received connection
        identifier (Section 3.2.2) or with the help of message
        correlation provided by the transport protocol (Section 3.2.4).
+       If there is no protocol state, in the case of message_1, a new
+       protocol state is created.  An initial C_1 = "null" byte in
+       message_1 (Section 5.3.1) can be used to distinguish message_1
+       from other messages.  The Responder endpoint needs to make use of
+       available Denial-of-Service mitigation (Section 8.5).
 
    3.  If the message received is an error message then process
        according to Section 6, else process as the expected next message
@@ -1281,6 +1278,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    transport does not support message deduplication is addressed in
    Appendix D.
 
+5.3.  EDHOC Message 1
+
+
 
 
 
@@ -1289,8 +1289,6 @@ Selander, et al.         Expires 23 October 2021               [Page 23]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-5.3.  EDHOC Message 1
 
 5.3.1.  Formatting of Message 1
 
@@ -1336,7 +1334,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  AD_1 - bstr containing unprotected opaque auxiliary data
 
+5.3.2.  Initiator Processing of Message 1
 
+   The Initiator SHALL compose message_1 as follows:
 
 
 
@@ -1345,10 +1345,6 @@ Selander, et al.         Expires 23 October 2021               [Page 24]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-5.3.2.  Initiator Processing of Message 1
-
-   The Initiator SHALL compose message_1 as follows:
 
    *  The supported cipher suites and the order of preference MUST NOT
       be changed based on previous error messages.  However, the list
@@ -1394,6 +1390,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    protocol MUST be discontinued.  If the Responder does not support the
    selected cipher suite, then SUITES_R MUST include one or more
    supported cipher suites.  If the Responder does not support the
+   selected cipher suite, but supports another cipher suite in SUITES_I,
+   then SUITES_R MUST include the first supported cipher suite in
+   SUITES_I.
+
 
 
 
@@ -1401,10 +1401,6 @@ Selander, et al.         Expires 23 October 2021               [Page 25]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-   selected cipher suite, but supports another cipher suite in SUITES_I,
-   then SUITES_R MUST include the first supported cipher suite in
-   SUITES_I.
 
 5.4.  EDHOC Message 2
 
@@ -1450,6 +1446,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       is the hash function in the selected cipher suite.  The transcript
       hash TH_2 is a CBOR encoded bstr and the input to the hash
       function is a CBOR Sequence.
+
+
+
+
 
 
 
