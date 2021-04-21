@@ -940,12 +940,12 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    but other parameters may need to be known out-of-band (e.g., which
    authentication method is used, see Section 3.2.1).
 
-   In order to ensure that EDHOC is used for the intended purpose, each
-   message needs to be verified against an applicability statement
-   associated to the protocol instance.  If the message does not comply
-   with the applicability statement, the protocol needs to be
-   discontinued.  This allows for the relevant processing and
-   verifications to be made, including things like:
+   The purpose of the applicability statement is describe the intended
+   use of EDHOC to allow for the relevant processing and verifications
+   to be made, including things like:
+
+
+
 
 
 
@@ -992,7 +992,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    and if it needs to fail because of incompliance, to infer the reason
    why the protocol failed.
 
-   For other parameters, like an CRED_x in the case that it is not
+   For other parameters, like CRED_x in the case that it is not
    transported, it may not be possible to verify that incompliance with
    applicability statement was the reason for failure: Integrity
    verification in message_2 or message_3 may fail not only because of
@@ -1241,9 +1241,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    For each protocol instance, the endpoints are assumed to keep an
    associated protocol state containing connection identifiers, keys,
    etc. used for subsequent processing of protocol related data.  The
-   protocol state is associated to an applicability statement
-   (Section 3.7) which provides the context for how messages are
-   transported, identified and processed.
+   protocol state is assumed to be associated to an applicability
+   statement (Section 3.7) which provides the context for how messages
+   are transported, identified and processed.
 
    EDHOC messages SHALL be processed according to the current protocol
    state.  The following steps are expected to be performed at reception
@@ -1309,9 +1309,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    where:
 
    *  C_1 - an initial CBOR simple value "null" (= 0xf6) MAY be used to
-      distinguish message_1 from other messages.  The applicability
-      statement (Section 3.7) specifies whether this field is present or
-      not.
+      distinguish message_1 from other messages.
 
    *  METHOD_CORR = 4 * method + corr, where method = 0, 1, 2, or 3 (see
       Figure 4) and the correlation parameter corr is chosen based on
@@ -1337,6 +1335,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 5.3.2.  Initiator Processing of Message 1
 
    The Initiator SHALL compose message_1 as follows:
+
+
 
 
 
