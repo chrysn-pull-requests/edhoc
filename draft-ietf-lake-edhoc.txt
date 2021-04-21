@@ -133,7 +133,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    Appendix D.  EDHOC Message Deduplication  . . . . . . . . . . . .  92
    Appendix E.  Change Log . . . . . . . . . . . . . . . . . . . . .  93
    Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  95
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  95
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  96
 
 1.  Introduction
 
@@ -5189,6 +5189,39 @@ Appendix E.  Change Log
 
    Main changes:
 
+   *  From -05 to -06:
+
+      -  New section 5.2 "Message Processing Outline"
+
+      -  Optional inital byte C_1 = null in message_1
+
+      -  New format of error messages, table of error codes, IANA
+         registry
+
+      -  Change of recommendation transport of error in CoAP
+
+      -  Merge of content in 3.7 and appendix C into new section 3.7
+         "Applicability Statement"
+
+
+
+Selander, et al.         Expires 23 October 2021               [Page 93]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
+
+      -  Requiring use of deterministic CBOR
+
+      -  New section on message deduplication
+
+      -  New appendix containin all CDDL definitions
+
+      -  New appendix with change log
+
+      -  Removed section "Other Documents Referncing EDHOC"
+
+      -  Clarifications based on review comments
+
    *  From -04 to -05:
 
       -  EDHOC-Rekey-FS -> EDHOC-KeyUpdate
@@ -5202,13 +5235,6 @@ Appendix E.  Change Log
       -  Updated applicability statement template
 
    *  From -03 to -04:
-
-
-
-Selander, et al.         Expires 23 October 2021               [Page 93]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
 
       -  Restructure of section 1
 
@@ -5232,6 +5258,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  From -02 to -03:
 
       -  Rearrangements of section 3 and beginning of section 4
+
+
+
+Selander, et al.         Expires 23 October 2021               [Page 94]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
       -  Key derivation new section 4
 
@@ -5258,14 +5291,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
       -  Updated text on cipher suite negotiation and key confirmation
 
-
-
-
-Selander, et al.         Expires 23 October 2021               [Page 94]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
       -  Test vector for static DH
 
    *  From -00 to -01:
@@ -5287,6 +5312,15 @@ Acknowledgments
    commenting on intermediate versions of the draft.  We are especially
    indebted to Jim Schaad for his continuous reviewing and
    implementation of different versions of the draft.
+
+
+
+
+
+Selander, et al.         Expires 23 October 2021               [Page 95]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    Work on this document has in part been supported by the H2020 project
    SIFIS-Home (grant agreement 952652).
@@ -5317,4 +5351,26 @@ Authors' Addresses
 
 
 
-Selander, et al.         Expires 23 October 2021               [Page 95]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Selander, et al.         Expires 23 October 2021               [Page 96]
