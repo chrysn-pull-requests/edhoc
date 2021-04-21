@@ -2268,8 +2268,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    EDHOC inherits its security properties from the theoretical SIGMA-I
    protocol [SIGMA].  Using the terminology from [SIGMA], EDHOC provides
    perfect forward secrecy, mutual authentication with aliveness,
-   consistency, peer awareness.  As described in [SIGMA], peer awareness
-   is provided to the Responder, but not to the Initiator.
+   consistency, and peer awareness.  As described in [SIGMA], peer
+   awareness is provided to the Responder, but not to the Initiator.
 
    EDHOC protects the credential identifier of the Initiator against
    active attacks and the credential identifier of the Responder against
