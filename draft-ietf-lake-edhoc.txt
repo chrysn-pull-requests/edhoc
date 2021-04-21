@@ -85,12 +85,12 @@ Table of Contents
      5.1.  Encoding of bstr_identifier . . . . . . . . . . . . . . .  22
      5.2.  Message Processing Outline  . . . . . . . . . . . . . . .  23
      5.3.  EDHOC Message 1 . . . . . . . . . . . . . . . . . . . . .  23
-     5.4.  EDHOC Message 2 . . . . . . . . . . . . . . . . . . . . .  26
-     5.5.  EDHOC Message 3 . . . . . . . . . . . . . . . . . . . . .  29
+     5.4.  EDHOC Message 2 . . . . . . . . . . . . . . . . . . . . .  25
+     5.5.  EDHOC Message 3 . . . . . . . . . . . . . . . . . . . . .  28
    6.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . .  32
-     6.1.  Success (ERR_CODE == -1)  . . . . . . . . . . . . . . . .  33
-     6.2.  Unspecified (ERR_CODE == 0) . . . . . . . . . . . . . . .  33
-     6.3.  Wrong Selected Cipher Suite (ERR_CODE == 1) . . . . . . .  34
+     6.1.  Success . . . . . . . . . . . . . . . . . . . . . . . . .  33
+     6.2.  Unspecified . . . . . . . . . . . . . . . . . . . . . . .  33
+     6.3.  Wrong Selected Cipher Suite . . . . . . . . . . . . . . .  34
    7.  Transferring EDHOC and Deriving an OSCORE Context . . . . . .  36
      7.1.  EDHOC Message 4 . . . . . . . . . . . . . . . . . . . . .  36
      7.2.  Transferring EDHOC in CoAP  . . . . . . . . . . . . . . .  38
@@ -351,8 +351,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  CRED_I and CRED_R are the credentials containing the public
       authentication keys of I and R, respectively.
 
-   *  ID_CRED_I and ID_CRED_R are data enabling the recipient party to
-      retrieve the credential of I and R, respectively.
+   *  ID_CRED_I and ID_CRED_R are credential identifiers enabling the
+      recipient party to retrieve the credential of I and R,
+      respectively.
 
    *  Sig(I; . ) and Sig(R; . ) denote signatures made with the private
       authentication key of I and R, respectively.
@@ -384,7 +385,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
       -  The Initiator lists supported cipher suites in order of
          preference
-
 
 
 
@@ -1360,8 +1360,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       Responder.  If the Initiator previously received from the
       Responder an error message with error code 1 (see Section 6.3)
       indicating cipher suites supported by the Responder which also are
-      supported by the Initiator, then the Initiator SHALL select the
-      most preferred cipher suite of those.
+      supported by the Initiator, then the Initiator SHOULD select the
+      most preferred cipher suite of those (note that error messages are
+      not authenticated and may be forged).
 
    *  Generate an ephemeral ECDH key pair as specified in Section 5 of
       [SP-800-56A] using the curve in the selected cipher suite and
@@ -1387,12 +1388,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    If any verification step fails, the Responder MUST send an EDHOC
    error message back, formatted as defined in Section 6, and the
-   protocol MUST be discontinued.  If the Responder does not support the
-   selected cipher suite, then SUITES_R MUST include one or more
-   supported cipher suites.  If the Responder does not support the
-   selected cipher suite, but supports another cipher suite in SUITES_I,
-   then SUITES_R MUST include the first supported cipher suite in
-   SUITES_I.
+   protocol MUST be discontinued.
+
+5.4.  EDHOC Message 2
+
+
 
 
 
@@ -1401,8 +1401,6 @@ Selander, et al.         Expires 23 October 2021               [Page 25]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-5.4.  EDHOC Message 2
 
 5.4.1.  Formatting of Message 2
 
@@ -1447,8 +1445,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       hash TH_2 is a CBOR encoded bstr and the input to the hash
       function is a CBOR Sequence.
 
-
-
+   *  Compute an inner COSE_Encrypt0 as defined in Section 5.3 of
+      [I-D.ietf-cose-rfc8152bis-struct], with the EDHOC AEAD algorithm
+      in the selected cipher suite, K_2m, IV_2m, and the following
+      parameters:
 
 
 
@@ -1457,11 +1457,6 @@ Selander, et al.         Expires 23 October 2021               [Page 26]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-   *  Compute an inner COSE_Encrypt0 as defined in Section 5.3 of
-      [I-D.ietf-cose-rfc8152bis-struct], with the EDHOC AEAD algorithm
-      in the selected cipher suite, K_2m, IV_2m, and the following
-      parameters:
 
       -  protected = << ID_CRED_R >>
 
@@ -1506,6 +1501,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
       -  payload = MAC_2
 
+      COSE constructs the input to the Signature Algorithm as:
+
+      -  The key is the private authentication key of the Responder.
+
+      -  The message M to be signed =
 
 
 
@@ -1513,12 +1513,6 @@ Selander, et al.         Expires 23 October 2021               [Page 27]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-      COSE constructs the input to the Signature Algorithm as:
-
-      -  The key is the private authentication key of the Responder.
-
-      -  The message M to be signed =
 
          [ "Signature1", << ID_CRED_R >>, << TH_2, CRED_R, ? AD_2 >>,
          MAC_2 ]
@@ -1560,6 +1554,12 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  Pass AD_2 to the security application.
 
+   If any verification step fails, the Initiator MUST send an EDHOC
+   error message back, formatted as defined in Section 6, and the
+   protocol MUST be discontinued.
+
+5.5.  EDHOC Message 3
+
 
 
 
@@ -1569,12 +1569,6 @@ Selander, et al.         Expires 23 October 2021               [Page 28]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-   If any verification step fails, the Initiator MUST send an EDHOC
-   error message back, formatted as defined in Section 6, and the
-   protocol MUST be discontinued.
-
-5.5.  EDHOC Message 3
 
 5.5.1.  Formatting of Message 3
 
@@ -1619,18 +1613,18 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
          o  AD_3 = bstr containing opaque protected auxiliary data
 
+      -  plaintext = h''
+
+      COSE constructs the input to the AEAD [RFC5116] as follows:
+
+      -  Key K = EDHOC-KDF( PRK_4x3m, TH_3, "K_3m", length )
+
 
 
 Selander, et al.         Expires 23 October 2021               [Page 29]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-      -  plaintext = h''
-
-      COSE constructs the input to the AEAD [RFC5116] as follows:
-
-      -  Key K = EDHOC-KDF( PRK_4x3m, TH_3, "K_3m", length )
 
       -  Nonce N = EDHOC-KDF( PRK_4x3m, TH_3, "IV_3m", length )
 
@@ -1673,15 +1667,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
       -  external_aad = TH_3
 
-
-
-
-
-Selander, et al.         Expires 23 October 2021               [Page 30]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
       -  plaintext = ( ID_CRED_I / bstr_identifier, Signature_or_MAC_3,
          ? AD_3 )
 
@@ -1689,6 +1674,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
             i.e., ID_CRED_I = { 4 : kid_I }, only the byte string kid_I
             is conveyed in the plaintext encoded as a bstr_identifier,
             see Section 3.3.4 and Section 5.1.
+
+
+
+Selander, et al.         Expires 23 October 2021               [Page 30]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
       COSE constructs the input to the AEAD [RFC5116] as follows:
 
@@ -1728,16 +1720,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  Decode message_3 (see Appendix A.1).
 
-
-
-
-
-
-Selander, et al.         Expires 23 October 2021               [Page 31]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    *  Retrieve the protocol state using the connection identifier C_R
       and/or other external information such as the CoAP Token and the
       5-tuple.
@@ -1748,6 +1730,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  Verify that the identity of the Initiator is an allowed identity
       for this connection, see Section 3.3.
+
+
+
+Selander, et al.         Expires 23 October 2021               [Page 31]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    *  Verify Signature_or_MAC_3 using the algorithm in the selected
       cipher suite.  The verification process depends on the method, see
@@ -1787,13 +1776,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    error SHALL be a CBOR Sequence (see Appendix A.1) as defined below
 
-
-
-Selander, et al.         Expires 23 October 2021               [Page 32]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    error = (
      ? C_x : bstr_identifier,
      ERR_CODE : int,
@@ -1803,6 +1785,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
                        Figure 5: EDHOC Error Message
 
    where:
+
+
+
+
+Selander, et al.         Expires 23 October 2021               [Page 32]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    *  C_x - (optional) variable length connection identifier, encoded as
       a bstr_identifier (see Section 5.1).  If error is sent by the
@@ -1833,14 +1823,24 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
                 Figure 6: Error Codes and Error Information
 
-6.1.  Success (ERR_CODE == -1)
+6.1.  Success
 
    TBD
 
-6.2.  Unspecified (ERR_CODE == 0)
+6.2.  Unspecified
 
    Error code 0 is used for unspecified errors and contain a diagnostic
    message.
+
+   For error messages with ERR_CODE == 0, ERR_INFO MUST be a text string
+   containing a human-readable diagnostic message written in English.
+   The diagnostic text message is mainly intended for software engineers
+   that during debugging need to interpret it in the context of the
+   EDHOC specification.  The diagnostic message SHOULD be provided to
+   the calling application where it SHOULD be logged.
+
+
+
 
 
 
@@ -1850,28 +1850,22 @@ Selander, et al.         Expires 23 October 2021               [Page 33]
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
-   For error messages with ERR_CODE == 0, ERR_INFO MUST be a text string
-   containing a human-readable diagnostic message written in English.
-   The diagnostic text message is mainly intended for software engineers
-   that during debugging need to interpret it in the context of the
-   EDHOC specification.  The diagnostic message SHOULD be provided to
-   the calling application where it SHOULD be logged.
-
-6.3.  Wrong Selected Cipher Suite (ERR_CODE == 1)
+6.3.  Wrong Selected Cipher Suite
 
    Error code 1 MUST only be used in a response to message_1 in case the
    cipher suite selected by the Initiator is not supported by the
    Responder, or if the Responder supports a cipher suite more preferred
-   by the Initiator than the selected cipher suite, see Section 5.3.
+   by the Initiator than the selected cipher suite, see Section 5.3.3.
 
    ERR_INFO is of type SUITES_R:
 
    SUITES_R : [ supported : 2* suite ] / suite
 
-   SUITES_R contains all cipher suites which the Responder supports, not
-   restricted to SUITES_I.  If a single supported cipher suite is
-   conveyed with SUITES_R then the supported cipher suite is encoded as
-   an int instead of an array.
+   If the Responder does not support the selected cipher suite, then
+   SUITES_R MUST include one or more supported cipher suites.  If the
+   Responder does not support the selected cipher suite, but supports
+   another cipher suite in SUITES_I, then SUITES_R MUST include the
+   first supported cipher suite in SUITES_I.
 
 6.3.1.  Cipher Suite Negotiation
 
@@ -1897,6 +1891,12 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    In the first example (Figure 7), the Responder supports cipher suite
    6 but not the initially selected cipher suite 5.
+
+
+
+
+
+
 
 
 
