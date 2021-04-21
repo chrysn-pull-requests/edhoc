@@ -790,8 +790,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       authentication, CRED_x.  For example, a certificate chain can be
       transported in ID_CRED_x with COSE header parameter c5c or
       x5chain, defined in [I-D.mattsson-cose-cbor-cert-compress] and
-      [I-D.ietf-cose-x509].  This is typically how certificates are
-      transported within EDHOC.
+      [I-D.ietf-cose-x509].
 
    It is RECOMMENDED that ID_CRED_x uniquely identify the public
    authentication key as the recipient may otherwise have to try several
@@ -833,6 +832,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    The following cipher suites are for constrained IoT where message
    overhead is a very important factor:
+
 
 
 
