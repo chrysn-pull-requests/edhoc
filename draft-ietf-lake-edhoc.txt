@@ -1442,11 +1442,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  Choose a connection identifier C_R and store it for the length of
       the protocol.
 
-   *  Compute the transcript hash TH_2 = H( H(message_1), data_2 ) where
-      H() is the hash function in the selected cipher suite.  The
-      transcript hash TH_2 is a CBOR encoded bstr and the input to the
-      hash function is a CBOR Sequence.  Note that H(message_1) can be
-      computed and cached alredy in the processing of message_1.
+   *  Compute the transcript hash TH_2 = H(message_1, data_2) where H()
+      is the hash function in the selected cipher suite.  The transcript
+      hash TH_2 is a CBOR encoded bstr and the input to the hash
+      function is a CBOR Sequence.
+
 
 
 
@@ -1597,12 +1597,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  If corr (METHOD_CORR mod 4) equals 2 or 3, C_R is omitted,
       otherwise C_R is not omitted.
 
-   *  Compute the transcript hash TH_3 = H( H(TH_2, CIPHERTEXT_2),
-      data_3 ) where H() is the hash function in the selected cipher
-      suite.  The transcript hash TH_3 is a CBOR encoded bstr and the
-      input to the hash function is a CBOR Sequence.  Note that H(TH_2,
-      CIPHERTEXT_2) can be computed and cached alredy in the processing
-      of message_2.
+   *  Compute the transcript hash TH_3 = H(TH_2 , CIPHERTEXT_2, data_3)
+      where H() is the hash function in the selected cipher suite.  The
+      transcript hash TH_3 is a CBOR encoded bstr and the input to the
+      hash function is a CBOR Sequence.
 
    *  Compute an inner COSE_Encrypt0 as defined in Section 5.3 of
       [I-D.ietf-cose-rfc8152bis-struct], with the EDHOC AEAD algorithm
@@ -1619,14 +1617,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
          o  CRED_I - bstr containing the credential of the Initiator,
             see Section 3.3.4.
 
+         o  AD_3 = bstr containing opaque protected auxiliary data
+
 
 
 Selander, et al.         Expires 23 October 2021               [Page 29]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-         o  AD_3 = bstr containing opaque protected auxiliary data
 
       -  plaintext = h''
 
@@ -1674,6 +1672,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       parameters.  The protected header SHALL be empty.
 
       -  external_aad = TH_3
+
+
 
 
 
@@ -5156,7 +5156,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    Message deduplication is resource demanding and therefore not
    supported in all CoAP implementations.  Since EDHOC is targeting
-   constrained environments, it is desirable that EDHOC can optinally
+   constrained environments, it is desirable that EDHOC can optionally
    support transport layers which does not handle message duplication.
    Special care is needed to avoid issues with duplicate messages, see
    Section 5.2.
