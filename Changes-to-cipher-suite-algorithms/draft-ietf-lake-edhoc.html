@@ -823,7 +823,7 @@ address div.right {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Selander, et al.</td>
-<td class="center">Expires 27 October 2021</td>
+<td class="center">Expires 1 November 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -836,12 +836,12 @@ address div.right {
 <dd class="internet-draft">draft-ietf-lake-edhoc-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-04-25" class="published">25 April 2021</time>
+<time datetime="2021-04-30" class="published">30 April 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2021-10-27">27 October 2021</time></dd>
+<dd class="expires"><time datetime="2021-11-01">1 November 2021</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -883,7 +883,7 @@ address div.right {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 October 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 November 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1493,14 +1493,13 @@ One byte credential identifiers are realistic in many scenarios as most constrai
         <h3 id="name-cipher-suites">
 <a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-cipher-suites" class="section-name selfRef">Cipher Suites</a>
         </h3>
-<p id="section-3.4-1">An EDHOC cipher suite consists of an ordered set of Algorithms from the "COSE Algorithms" and "COSE Elliptic Curves" registries. Each algorithm is represented by a 
-COSE code point from the "COSE Algorithms" and "COSE Elliptic Curves" registries. Algorithms need to be specified with enough parameters to make them completely determined. Currently, none of the algorithms require parameters.  Note that the curve used in the signature algorithm is determined by the authentication key algorithm. EDHOC is only specified for use with key exchange algorithms of type ECDH curves. Use with other types of key exchange algorithms would likely require a specification updating EDHOC.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-1">An EDHOC cipher suite consists of an ordered set of algorithms from the "COSE Algorithms" and "COSE Elliptic Curves" registries. Algorithms need to be specified with enough parameters to make them completely determined. Currently, none of the algorithms require parameters.  Note that the curve used in the signature algorithm is determined by the authentication key algorithm. EDHOC is only specified for use with key exchange algorithms of type ECDH curves. Use with other types of key exchange algorithms would likely require a specification updating EDHOC.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.4-2.1">EDHOC AEAD algorithm<a href="#section-3.4-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-3.4-2.2">EDHOC hash algorithm<a href="#section-3.4-2.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.4-2.3">EDHOC ECDH curve (key exchange algorithm)<a href="#section-3.4-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.4-2.3">EDHOC key exchange algorithm (ECDH curve)<a href="#section-3.4-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-3.4-2.4">EDHOC signature algorithm<a href="#section-3.4-2.4" class="pilcrow">¶</a>
 </li>
@@ -1514,19 +1513,19 @@ COSE code point from the "COSE Algorithms" and "COSE Elliptic Curves" registries
 <p id="section-3.4-5">The following cipher suites are for constrained IoT where message overhead is a very important factor:<a href="#section-3.4-5" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-3.4-6">
 <pre>
-   0. ( 10, -16, 4, -8 with 6, 10, -16 )
+   0. ( 10, -16, 4, -8, 10, -16 )
       (AES-CCM-16-64-128, SHA-256, X25519, EdDSA,
        AES-CCM-16-64-128, SHA-256)
 
-   1. ( 30, -16, 4, -8 with 6, 10, -16 )
+   1. ( 30, -16, 4, -8, 10, -16 )
       (AES-CCM-16-128-128, SHA-256, X25519, EdDSA,
        AES-CCM-16-64-128, SHA-256)
 
-   2. ( 10, -16, 1, -7 with 1, 10, -16 )
+   2. ( 10, -16, 1, -7, 10, -16 )
       (AES-CCM-16-64-128, SHA-256, P-256, ES256,
        AES-CCM-16-64-128, SHA-256)
 
-   3. ( 30, -16, 1, -7 with 1, 10, -16 )
+   3. ( 30, -16, 1, -7, 10, -16 )
       (AES-CCM-16-128-128, SHA-256, P-256, ES256,
        AES-CCM-16-64-128, SHA-256)
 </pre><a href="#section-3.4-6" class="pilcrow">¶</a>
@@ -1534,7 +1533,7 @@ COSE code point from the "COSE Algorithms" and "COSE Elliptic Curves" registries
 <p id="section-3.4-7">The following cipher suite is for general non-constrained applications. It uses very high performance algorithms that also are widely supported:<a href="#section-3.4-7" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-3.4-8">
 <pre>
-   4. ( 1, -16, 4, -7 with 1, 1, -16 )
+   4. ( 1, -16, 4, -7, 1, -16 )
       (A128GCM, SHA-256, X25519, ES256,
        A128GCM, SHA-256)
 </pre><a href="#section-3.4-8" class="pilcrow">¶</a>
@@ -1542,7 +1541,7 @@ COSE code point from the "COSE Algorithms" and "COSE Elliptic Curves" registries
 <p id="section-3.4-9">The following cipher suite is for high security application such as government use and financial applications. It is compatible with the CNSA suite <span>[<a href="#CNSA" class="xref">CNSA</a>]</span>.<a href="#section-3.4-9" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-3.4-10">
 <pre>
-   5. ( 3, -43, 2, -35 with 2, 3, -43 )
+   5. ( 3, -43, 2, -35, 3, -43 )
       (A256GCM, SHA-384, P-384, ES384,
        A256GCM, SHA-384)
 </pre><a href="#section-3.4-10" class="pilcrow">¶</a>
@@ -2638,7 +2637,7 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-6">
 <pre>
 Value: 0
-Array: 10, 5, 4, -8, 10, 5
+Array: 10, -16, 4, -8, 10, -16
 Desc: AES-CCM-16-64-128, SHA-256, X25519, EdDSA,
       AES-CCM-16-64-128, SHA-256
 Reference: [[this document]]
@@ -2647,7 +2646,7 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-7">
 <pre>
 Value: 1
-Array: 30, 5, 4, -8, 10, 5
+Array: 30, -16, 4, -8, 10, -16
 Desc: AES-CCM-16-128-128, SHA-256, X25519, EdDSA,
       AES-CCM-16-64-128, SHA-256
 Reference: [[this document]]
@@ -2656,7 +2655,7 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-8">
 <pre>
 Value: 2
-Array: 10, 5, 1, -7, 10, 5
+Array: 10, -16, 1, -7, 10, -16
 Desc: AES-CCM-16-64-128, SHA-256, P-256, ES256,
       AES-CCM-16-64-128, SHA-256
 Reference: [[this document]]
@@ -2665,7 +2664,7 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-9">
 <pre>
 Value: 3
-Array: 30, 5, 1, -7, 10, 5
+Array: 30, -16, 1, -7, 10, -16
 Desc: AES-CCM-16-128-128, SHA-256, P-256, ES256,
       AES-CCM-16-64-128, SHA-256
 Reference: [[this document]]
@@ -2824,19 +2823,19 @@ Reference: [[this document]]
 <dl class="references">
 <dt id="I-D.ietf-core-echo-request-tag">[I-D.ietf-core-echo-request-tag]</dt>
         <dd>
-<span class="refAuthor">Amsuess, C.</span>, <span class="refAuthor">Mattsson, J.</span>, and <span class="refAuthor">G. Selander</span>, <span class="refTitle">"CoAP: Echo, Request-Tag, and Token Processing"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-echo-request-tag-11</span>, <time datetime="2020-11-02" class="refDate">2 November 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-echo-request-tag-11.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-echo-request-tag-11.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Amsuess, C.</span>, <span class="refAuthor">Mattsson, J.</span>, and <span class="refAuthor">G. Selander</span>, <span class="refTitle">"CoAP: Echo, Request-Tag, and Token Processing"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-echo-request-tag-12</span>, <time datetime="2021-02-01" class="refDate">1 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/internet-drafts/draft-ietf-core-echo-request-tag-12.txt">https://www.ietf.org/internet-drafts/draft-ietf-core-echo-request-tag-12.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-cose-rfc8152bis-algs">[I-D.ietf-cose-rfc8152bis-algs]</dt>
         <dd>
-<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Initial Algorithms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-rfc8152bis-algs-12</span>, <time datetime="2020-09-24" class="refDate">24 September 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-cose-rfc8152bis-algs-12.txt">http://www.ietf.org/internet-drafts/draft-ietf-cose-rfc8152bis-algs-12.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Initial Algorithms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-rfc8152bis-algs-12</span>, <time datetime="2020-09-24" class="refDate">24 September 2020</time>, <span>&lt;<a href="https://www.ietf.org/internet-drafts/draft-ietf-cose-rfc8152bis-algs-12.txt">https://www.ietf.org/internet-drafts/draft-ietf-cose-rfc8152bis-algs-12.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-cose-rfc8152bis-struct">[I-D.ietf-cose-rfc8152bis-struct]</dt>
         <dd>
-<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Structures and Process"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-rfc8152bis-struct-14</span>, <time datetime="2020-09-24" class="refDate">24 September 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-cose-rfc8152bis-struct-14.txt">http://www.ietf.org/internet-drafts/draft-ietf-cose-rfc8152bis-struct-14.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Structures and Process"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-rfc8152bis-struct-15</span>, <time datetime="2021-02-01" class="refDate">1 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/internet-drafts/draft-ietf-cose-rfc8152bis-struct-15.txt">https://www.ietf.org/internet-drafts/draft-ietf-cose-rfc8152bis-struct-15.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-cose-x509">[I-D.ietf-cose-x509]</dt>
         <dd>
-<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Header parameters for carrying and referencing X.509 certificates"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-x509-08</span>, <time datetime="2020-12-14" class="refDate">14 December 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-cose-x509-08.txt">http://www.ietf.org/internet-drafts/draft-ietf-cose-x509-08.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Header parameters for carrying and referencing X.509 certificates"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-x509-08</span>, <time datetime="2020-12-14" class="refDate">14 December 2020</time>, <span>&lt;<a href="https://www.ietf.org/internet-drafts/draft-ietf-cose-x509-08.txt">https://www.ietf.org/internet-drafts/draft-ietf-cose-x509-08.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-lake-reqs">[I-D.ietf-lake-reqs]</dt>
         <dd>
@@ -2923,15 +2922,15 @@ Reference: [[this document]]
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-resource-directory">[I-D.ietf-core-resource-directory]</dt>
         <dd>
-<span class="refAuthor">Amsuess, C.</span>, <span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Koster, M.</span>, <span class="refAuthor">Bormann, C.</span>, and <span class="refAuthor">P. Stok</span>, <span class="refTitle">"CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-resource-directory-26</span>, <time datetime="2020-11-02" class="refDate">2 November 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-resource-directory-26.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-resource-directory-26.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Amsuess, C.</span>, <span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Koster, M.</span>, <span class="refAuthor">Bormann, C.</span>, and <span class="refAuthor">P. Stok</span>, <span class="refTitle">"CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-resource-directory-28</span>, <time datetime="2021-03-07" class="refDate">7 March 2021</time>, <span>&lt;<a href="https://www.ietf.org/internet-drafts/draft-ietf-core-resource-directory-28.txt">https://www.ietf.org/internet-drafts/draft-ietf-core-resource-directory-28.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-lwig-security-protocol-comparison">[I-D.ietf-lwig-security-protocol-comparison]</dt>
         <dd>
-<span class="refAuthor">Mattsson, J.</span>, <span class="refAuthor">Palombini, F.</span>, and <span class="refAuthor">M. Vucinic</span>, <span class="refTitle">"Comparison of CoAP Security Protocols"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lwig-security-protocol-comparison-05</span>, <time datetime="2020-11-02" class="refDate">2 November 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-lwig-security-protocol-comparison-05.txt">http://www.ietf.org/internet-drafts/draft-ietf-lwig-security-protocol-comparison-05.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Mattsson, J.</span>, <span class="refAuthor">Palombini, F.</span>, and <span class="refAuthor">M. Vucinic</span>, <span class="refTitle">"Comparison of CoAP Security Protocols"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lwig-security-protocol-comparison-05</span>, <time datetime="2020-11-02" class="refDate">2 November 2020</time>, <span>&lt;<a href="https://www.ietf.org/internet-drafts/draft-ietf-lwig-security-protocol-comparison-05.txt">https://www.ietf.org/internet-drafts/draft-ietf-lwig-security-protocol-comparison-05.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-tls-dtls13">[I-D.ietf-tls-dtls13]</dt>
         <dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">N. Modadugu</span>, <span class="refTitle">"The Datagram Transport Layer Security (DTLS) Protocol Version 1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-dtls13-40</span>, <time datetime="2021-01-20" class="refDate">20 January 2021</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tls-dtls13-40.txt">http://www.ietf.org/internet-drafts/draft-ietf-tls-dtls13-40.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">N. Modadugu</span>, <span class="refTitle">"The Datagram Transport Layer Security (DTLS) Protocol Version 1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-dtls13-42</span>, <time datetime="2021-04-22" class="refDate">22 April 2021</time>, <span>&lt;<a href="https://www.ietf.org/internet-drafts/draft-ietf-tls-dtls13-42.txt">https://www.ietf.org/internet-drafts/draft-ietf-tls-dtls13-42.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.mattsson-cfrg-det-sigs-with-noise">[I-D.mattsson-cfrg-det-sigs-with-noise]</dt>
         <dd>
@@ -2939,7 +2938,7 @@ Reference: [[this document]]
 <dd class="break"></dd>
 <dt id="I-D.mattsson-cose-cbor-cert-compress">[I-D.mattsson-cose-cbor-cert-compress]</dt>
         <dd>
-<span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Hoglund, J.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoding of X.509 Certificates (CBOR Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-mattsson-cose-cbor-cert-compress-06</span>, <time datetime="2021-01-19" class="refDate">19 January 2021</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-mattsson-cose-cbor-cert-compress-06.txt">http://www.ietf.org/internet-drafts/draft-mattsson-cose-cbor-cert-compress-06.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Hoglund, J.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-mattsson-cose-cbor-cert-compress-08</span>, <time datetime="2021-02-22" class="refDate">22 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/internet-drafts/draft-mattsson-cose-cbor-cert-compress-08.txt">https://www.ietf.org/internet-drafts/draft-mattsson-cose-cbor-cert-compress-08.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.palombini-core-oscore-edhoc">[I-D.palombini-core-oscore-edhoc]</dt>
         <dd>
@@ -2947,7 +2946,7 @@ Reference: [[this document]]
 <dd class="break"></dd>
 <dt id="I-D.selander-ace-ake-authz">[I-D.selander-ace-ake-authz]</dt>
         <dd>
-<span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J.</span>, <span class="refAuthor">Vucinic, M.</span>, <span class="refAuthor">Richardson, M.</span>, and <span class="refAuthor">A. Schellenbaum</span>, <span class="refTitle">"Lightweight Authorization for Authenticated Key Exchange."</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-selander-ace-ake-authz-02</span>, <time datetime="2020-11-02" class="refDate">2 November 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-selander-ace-ake-authz-02.txt">http://www.ietf.org/internet-drafts/draft-selander-ace-ake-authz-02.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J.</span>, <span class="refAuthor">Vucinic, M.</span>, <span class="refAuthor">Richardson, M.</span>, and <span class="refAuthor">A. Schellenbaum</span>, <span class="refTitle">"Lightweight Authorization for Authenticated Key Exchange."</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-selander-ace-ake-authz-02</span>, <time datetime="2020-11-02" class="refDate">2 November 2020</time>, <span>&lt;<a href="https://www.ietf.org/internet-drafts/draft-selander-ace-ake-authz-02.txt">https://www.ietf.org/internet-drafts/draft-selander-ace-ake-authz-02.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Norrman20">[Norrman20]</dt>
         <dd>
