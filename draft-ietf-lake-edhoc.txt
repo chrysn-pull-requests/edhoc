@@ -541,7 +541,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    Cryptographically, EDHOC does not put requirements on the lower
    layers.  EDHOC is not bound to a particular transport layer, and can
-   be used in environments without IP.  The application using EDHOC tis
+   be used in environments without IP.  The application using EDHOC is
    responsible to handle message loss, reordering, message duplication,
    fragmentation, demultiplex EDHOC messages from other types of
    messages, and denial of service protection, where necessary.
