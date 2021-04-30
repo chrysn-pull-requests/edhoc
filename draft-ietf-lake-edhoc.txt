@@ -978,7 +978,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    3.  How message_1 is identified, in particular if the optional
        initial C_1 = "null" of message_1 is present; see Section 5.3.1
 
-   4.  Authentication credentials (CRED_I, CRED_R; see Section 3.3.3).
+   4.  Profile for authentication credentials (CRED_I, CRED_R; see
+       Section 3.3.3), e.g., profile for certificate or COSE_key,
+       including supported authentication key algorithms (subject public
+       key algorithm in X.509 certificate).
 
    5.  Type used to identify authentication credentials (ID_CRED_I,
        ID_CRED_R; see Section 3.3.4).
@@ -998,9 +1001,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    may become simplified by this knowledge.
 
    An example of an applicability statement is shown in Appendix C.
-
-
-
 
 
 
