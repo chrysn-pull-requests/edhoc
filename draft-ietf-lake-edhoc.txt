@@ -900,15 +900,16 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 3.5.  Ephemeral Public Keys
 
-   EDHOC alway uses compact representation of elliptic curve points, see
-   Appendix A.  In COSE compact representation is achieved by formatting
-   the ECDH ephemeral public keys as COSE_Keys of type EC2 or OKP
-   according to Sections 7.1 and 7.2 of [I-D.ietf-cose-rfc8152bis-algs],
-   but only including the 'x' parameter in G_X and G_Y.  For Elliptic
-   Curve Keys of type EC2, compact representation MAY be used also in
-   the COSE_Key.  If the COSE implementation requires an 'y' parameter,
-   the value y = false SHALL be used.  COSE always use compact output
-   for Elliptic Curve Keys of type EC2.
+   EDHOC always uses compact representation of elliptic curve points,
+   see Appendix A.  In COSE compact representation is achieved by
+   formatting the ECDH ephemeral public keys as COSE_Keys of type EC2 or
+   OKP according to Sections 7.1 and 7.2 of
+   [I-D.ietf-cose-rfc8152bis-algs], but only including the 'x' parameter
+   in G_X and G_Y.  For Elliptic Curve Keys of type EC2, compact
+   representation MAY be used also in the COSE_Key.  If the COSE
+   implementation requires an 'y' parameter, the value y = false SHALL
+   be used.  COSE always use compact output for Elliptic Curve Keys of
+   type EC2.
 
 3.6.  Auxiliary Data
 
@@ -943,7 +944,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    The purpose of the applicability statement is describe the intended
    use of EDHOC to allow for the relevant processing and verifications
    to be made, including things like:
-
 
 
 
@@ -3106,7 +3106,7 @@ Appendix A.  Compact Representation
    The encoding of the point at infinity is not supported.  Compact
    representation does not change any requirements on validation.  If a
    y-coordinate is required for validation or compatibily with APIs the
-   value ~yp SHALL be set to zero.  For such usages the compact
+   value ~yp SHALL be set to zero.  For such use, the compact
    representation can be transformed into the SECG point compressed
    format by prepending it with the single byte 0x02 (i.e.  M = 0x02 ||
    X).
