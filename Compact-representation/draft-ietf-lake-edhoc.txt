@@ -105,7 +105,7 @@ Table of Contents
      8.6.  Implementation Considerations . . . . . . . . . . . . . .  45
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  47
      9.1.  EDHOC Cipher Suites Registry  . . . . . . . . . . . . . .  47
-     9.2.  EDHOC Method Type Registry  . . . . . . . . . . . . . . .  49
+     9.2.  EDHOC Method Type Registry  . . . . . . . . . . . . . . .  48
 
 
 
@@ -900,15 +900,16 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 3.5.  Ephemeral Public Keys
 
-   EDHOC uses compact representation of elliptic curves, see Appendix A.
-   In COSE compact representation is achieved by formatting the ECDH
-   ephemeral public keys as COSE_Keys of type EC2 or OKP according to
-   Sections 7.1 and 7.2 of [I-D.ietf-cose-rfc8152bis-algs], but only
-   including the 'x' parameter in G_X and G_Y.  For Elliptic Curve Keys
-   of type EC2, compact representation MAY be used also in the COSE_Key.
-   If the COSE implementation requires an 'y' parameter, the value y =
-   false SHALL be used.  COSE always use compact output for Elliptic
-   Curve Keys of type EC2.
+   EDHOC always uses compact representation of elliptic curve points,
+   see Appendix A.  In COSE compact representation is achieved by
+   formatting the ECDH ephemeral public keys as COSE_Keys of type EC2 or
+   OKP according to Sections 7.1 and 7.2 of
+   [I-D.ietf-cose-rfc8152bis-algs], but only including the 'x' parameter
+   in G_X and G_Y.  For Elliptic Curve Keys of type EC2, compact
+   representation MAY be used also in the COSE_Key.  If the COSE
+   implementation requires an 'y' parameter, the value y = false SHALL
+   be used.  COSE always use compact output for Elliptic Curve Keys of
+   type EC2.
 
 3.6.  Auxiliary Data
 
@@ -943,7 +944,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    The purpose of the applicability statement is describe the intended
    use of EDHOC to allow for the relevant processing and verifications
    to be made, including things like:
-
 
 
 
@@ -1433,7 +1433,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       otherwise C_I is not omitted.
 
    *  Generate an ephemeral ECDH key pair using the curve in the
-      selected cipher suite and format it as a COSE_Key.  Let G_X be the
+      selected cipher suite and format it as a COSE_Key.  Let G_Y be the
       'x' parameter of the COSE_Key.
 
    *  Choose a connection identifier C_R and store it for the length of
@@ -2430,6 +2430,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    parties can derive application keys with other labels or run EDHOC
    again.
 
+   Requirement for how to securely generate, validate, and process the
+   ephermeral public keys depend on the elliptic curve.  For X25519 and
+   X448, the requirements are defined in [RFC7748].  For secp256r1,
+   secp384r1, and secp521r1, the requirements are defined in Section 5
+   of [SP-800-56A].  For secp256r1, secp384r1, and secp521r1, at least
+   partial public-key validation MUST be done.
+
 8.3.  Cipher Suites and Cryptographic Algorithms
 
    For many constrained IoT devices it is problematic to support more
@@ -2449,13 +2456,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    certificates, EDHOC, and the protection of application data.  The
    Initiator and the Responder should enforce a minimum security level.
 
-   The hash algorithms SHA-1 and SHA-256/64 (256-bit Hash truncated to
-   64-bits) SHALL NOT be supported for use in EDHOC except for
-   certificate identification with x5u and c5u.  Note that secp256k1 is
-   only defined for use with ECDSA and not for ECDH.
-
-
-
 
 
 
@@ -2465,6 +2465,11 @@ Selander, et al.         Expires 1 November 2021               [Page 44]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
+
+   The hash algorithms SHA-1 and SHA-256/64 (256-bit Hash truncated to
+   64-bits) SHALL NOT be supported for use in EDHOC except for
+   certificate identification with x5u and c5u.  Note that secp256k1 is
+   only defined for use with ECDSA and not for ECDH.
 
 8.4.  Unprotected Data
 
@@ -2509,11 +2514,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    generators using a long-term private keys and a deterministic
    signature function.  This improves randomness from broken or
    otherwise subverted random number generators.  The same idea can be
-   used with other secrets and functions such as a Diffie-Hellman
-   function or a symmetric secret and a PRF like HMAC or KMAC.  It is
-   RECOMMENDED to not trust a single source of randomness and to not put
-   unaugmented random numbers on the wire.
-
 
 
 
@@ -2521,6 +2521,11 @@ Selander, et al.         Expires 1 November 2021               [Page 45]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
+
+   used with other secrets and functions such as a Diffie-Hellman
+   function or a symmetric secret and a PRF like HMAC or KMAC.  It is
+   RECOMMENDED to not trust a single source of randomness and to not put
+   unaugmented random numbers on the wire.
 
    If ECDSA is supported, "deterministic ECDSA" as specified in
    [RFC6979] MAY be used.  Pure deterministic elliptic-curve signatures
@@ -2534,14 +2539,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    As suggested in Section 6.1.2 of [I-D.ietf-cose-rfc8152bis-algs] this
    can be addressed by combining randomness and determinism.
 
-   The referenced processing instructions in [SP-800-56A] must be
-   complied with, including deleting the intermediate computed values
-   along with any ephemeral ECDH secrets after the key derivation is
-   completed.  The ECDH shared secrets, keys, and IVs MUST be secret.
+   All private keys, symmetric keys, and IVs MUST be secret.
    Implementations should provide countermeasures to side-channel
-   attacks such as timing attacks.  Depending on the selected curve, the
-   parties should perform various validations of each other's public
-   keys, see e.g.  Section 5 of [SP-800-56A].
+   attacks such as timing attacks.  Intermediate computed values such as
+   ephemeral ECDH keys and ECDH shared secrets MUST be deleted after key
+   derivation is completed.
 
    The Initiator and the Responder are responsible for verifying the
    integrity of certificates.  The selection of trusted CAs should be
@@ -2563,13 +2565,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    The Responder MUST finish the verification step of message_3 before
    passing AD_3 to the application.
 
-
-
-
-
-
-
-
+   If two nodes unintentionally initiate two simultaneous EDHOC message
+   exchanges with each other even if they only want to complete a single
+   EDHOC message exchange, they MAY terminate the exchange with the
+   lexicographically smallest G_X.  If the two G_X values are equal, the
+   received message_1 MUST be discarded to mitigate reflection attacks.
 
 
 
@@ -2578,11 +2578,6 @@ Selander, et al.         Expires 1 November 2021               [Page 46]
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
-   If two nodes unintentionally initiate two simultaneous EDHOC message
-   exchanges with each other even if they only want to complete a single
-   EDHOC message exchange, they MAY terminate the exchange with the
-   lexicographically smallest G_X.  If the two G_X values are equal, the
-   received message_1 MUST be discarded to mitigate reflection attacks.
    Note that in the case of two simultaneous EDHOC exchanges where the
    nodes only complete one and where the nodes have different preferred
    cipher suites, an attacker can affect which of the two nodes'
@@ -2625,6 +2620,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    Desc: Reserved for Private Use
    Reference: [[this document]]
 
+   Value: -22
+   Algorithms: N/A
+   Desc: Reserved for Private Use
+   Reference: [[this document]]
+
 
 
 
@@ -2633,11 +2633,6 @@ Selander, et al.         Expires 1 November 2021               [Page 47]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-   Value: -22
-   Algorithms: N/A
-   Desc: Reserved for Private Use
-   Reference: [[this document]]
 
    Value: -21
    Algorithms: N/A
@@ -2680,16 +2675,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
          A256GCM, SHA-384
    Reference: [[this document]]
 
-
-
-
-
-
-Selander, et al.         Expires 1 November 2021               [Page 48]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
 9.2.  EDHOC Method Type Registry
 
    IANA has created a new registry entitled "EDHOC Method Type" under
@@ -2697,6 +2682,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    Review".  The columns of the registry are Value, Description, and
    Reference, where Value is an integer and the other columns are text
    strings.  The initial contents of the registry is shown in Figure 4.
+
+
+
+Selander, et al.         Expires 1 November 2021               [Page 48]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
 9.3.  EDHOC Error Codes Registry
 
@@ -2739,13 +2731,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    *  Interoperability considerations: N/A
 
-
-
-Selander, et al.         Expires 1 November 2021               [Page 49]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    *  Published specification: [[this document]] (this document)
 
    *  Applications that use this media type: To be identified
@@ -2753,6 +2738,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    *  Fragment identifier considerations: N/A
 
    *  Additional information:
+
+
+
+Selander, et al.         Expires 1 November 2021               [Page 49]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
       -  Magic number(s): N/A
 
@@ -2793,15 +2785,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
    Expert reviewers should take into consideration the following points:
 
-
-
-
-
-Selander, et al.         Expires 1 November 2021               [Page 50]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
-
-
    *  Clarity and correctness of registrations.  Experts are expected to
       check the clarity of purpose and use of the requested entries.
       Expert needs to make sure the values of algorithms are taken from
@@ -2810,6 +2793,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
       from relevant IETF working groups.  Encodings that do not meet
       these objective of clarity and completeness should not be
       registered.
+
+
+
+
+Selander, et al.         Expires 1 November 2021               [Page 50]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
+
 
    *  Experts should take into account the expected usage of fields when
       approving point assignment.  The length of the encoded value
@@ -2850,6 +2841,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
               Schaad, J., "CBOR Object Signing and Encryption (COSE):
               Header parameters for carrying and referencing X.509
               certificates", Work in Progress, Internet-Draft, draft-
+              ietf-cose-x509-08, 14 December 2020,
+              <https://www.ietf.org/internet-drafts/draft-ietf-cose-
+              x509-08.txt>.
+
+
+
+
+
+
 
 
 
@@ -2857,10 +2857,6 @@ Selander, et al.         Expires 1 November 2021               [Page 51]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-              ietf-cose-x509-08, 14 December 2020,
-              <https://www.ietf.org/internet-drafts/draft-ietf-cose-
-              x509-08.txt>.
 
    [I-D.ietf-lake-reqs]
               Vucinic, M., Selander, G., Mattsson, J., and D. Garcia-
@@ -2907,16 +2903,16 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
               DOI 10.17487/RFC7959, August 2016,
               <https://www.rfc-editor.org/info/rfc7959>.
 
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
 
 
 Selander, et al.         Expires 1 November 2021               [Page 52]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
    [RFC8376]  Farrell, S., Ed., "Low-Power Wide Area Network (LPWAN)
               Overview", RFC 8376, DOI 10.17487/RFC8376, May 2018,
@@ -2960,6 +2956,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    [CborMe]   Bormann, C., "CBOR Playground", May 2018,
               <http://cbor.me/>.
 
+   [CNSA]     (Placeholder), ., "Commercial National Security Algorithm
+              Suite", August 2015,
+              <https://apps.nsa.gov/iaarchive/programs/iad-initiatives/
+              cnsa-suite.cfm>.
 
 
 
@@ -2969,11 +2969,6 @@ Selander, et al.         Expires 1 November 2021               [Page 53]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
-
-   [CNSA]     (Placeholder), ., "Commercial National Security Algorithm
-              Suite", August 2015,
-              <https://apps.nsa.gov/iaarchive/programs/iad-initiatives/
-              cnsa-suite.cfm>.
 
    [I-D.ietf-core-resource-directory]
               Amsuess, C., Shelby, Z., Koster, M., Bormann, C., and P.
@@ -3019,6 +3014,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
               edhoc-01, 2 November 2020, <http://www.ietf.org/internet-
               drafts/draft-palombini-core-oscore-edhoc-01.txt>.
 
+   [I-D.selander-ace-ake-authz]
+              Selander, G., Mattsson, J., Vucinic, M., Richardson, M.,
+              and A. Schellenbaum, "Lightweight Authorization for
+              Authenticated Key Exchange.", Work in Progress, Internet-
+
 
 
 Selander, et al.         Expires 1 November 2021               [Page 54]
@@ -3026,10 +3026,6 @@ Selander, et al.         Expires 1 November 2021               [Page 54]
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
-   [I-D.selander-ace-ake-authz]
-              Selander, G., Mattsson, J., Vucinic, M., Richardson, M.,
-              and A. Schellenbaum, "Lightweight Authorization for
-              Authenticated Key Exchange.", Work in Progress, Internet-
               Draft, draft-selander-ace-ake-authz-02, 2 November 2020,
               <https://www.ietf.org/internet-drafts/draft-selander-ace-
               ake-authz-02.txt>.
@@ -3074,6 +3070,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
    [SP-800-56A]
               Barker, E., Chen, L., Roginsky, A., Vassilev, A., and R.
               Davis, "Recommendation for Pair-Wise Key-Establishment
+              Schemes Using Discrete Logarithm Cryptography",
+              NIST Special Publication 800-56A Revision 3, April 2018,
+              <https://doi.org/10.6028/NIST.SP.800-56Ar3>.
+
 
 
 
@@ -3082,23 +3082,20 @@ Selander, et al.         Expires 1 November 2021               [Page 55]
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO      April 2021
 
 
-              Schemes Using Discrete Logarithm Cryptography",
-              NIST Special Publication 800-56A Revision 3, April 2018,
-              <https://doi.org/10.6028/NIST.SP.800-56Ar3>.
-
 Appendix A.  Compact Representation
 
    As described in Section 4.2 of [RFC6090] the x-coordinate of an
    elliptic curve public key is a suitable representative for the entire
-   point whenever exponentiation is used as a one-way function.  One
-   example is ECDH with compact output, where only the x-coordinate of
-   the computed value is used as the shared secret.
+   point whenever scalar multiplication is used as a one-way function.
+   One example is ECDH with compact output, where only the x-coordinate
+   of the computed value is used as the shared secret.
 
    This section defines a format for compact representation based on the
    Elliptic-Curve-Point-to-Octet-String Conversion defined in
-   Section 2.3.3 of [SECG].  Usign the notation from [SECG], the output
-   is an octet string of length ceil( (log2 q) / 8 ).  The steps in
-   Section 2.3.3 of [SECG] are replaced by:
+   Section 2.3.3 of [SECG].  Using the notation from [SECG], the output
+   is an octet string of length ceil( (log2 q) / 8 ).  See [SECG] for a
+   definition of q, M, X, xp, and ~yp.  The steps in Section 2.3.3 of
+   [SECG] are replaced by:
 
    1.  Convert the field element xp to an octet string X of length ceil(
        (log2 q) / 8 ) octets using the conversion routine specified in
@@ -3109,20 +3106,23 @@ Appendix A.  Compact Representation
    The encoding of the point at infinity is not supported.  Compact
    representation does not change any requirements on validation.  If a
    y-coordinate is required for validation or compatibily with APIs the
-   value ~yp SHALL be set to zero.  For such usages the compact
+   value ~yp SHALL be set to zero.  For such use, the compact
    representation can be transformed into the SECG point compressed
    format by prepending it with the single byte 0x02 (i.e.  M = 0x02 ||
-   M).
+   X).
+
+   Using compact representation have some security benefits.  An
+   implementation does not need to check that the point is not the point
+   at infinity (the identity element).  Similarly, as not even the sign
+   of the y-coordinate is encoded, compact representation trivially
+   avoids so called "benign malleability" attacks where an attacker
+   changes the sign, see [SECG].
 
 Appendix B.  Use of CBOR, CDDL and COSE in EDHOC
 
    This Appendix is intended to simplify for implementors not familiar
    with CBOR [RFC8949], CDDL [RFC8610], COSE
    [I-D.ietf-cose-rfc8152bis-struct], and HKDF [RFC5869].
-
-
-
-
 
 
 
