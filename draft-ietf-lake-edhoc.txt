@@ -748,9 +748,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
 3.3.4.  Identification of Credentials
 
-   ID_CRED_I and ID_CRED_R are identifiers of the public authentication
-   keys of the Initiator and the Responder, respectively.  ID_CRED_I and
-   ID_CRED_R do not have any cryptographic purpose in EDHOC.
+   ID_CRED_I and ID_CRED_R are used to identify and optionally transport
+   the public authentication keys of the Initiator and the Responder,
+   respectively.  ID_CRED_I and ID_CRED_R do not have any cryptographic
+   purpose in EDHOC.
 
    *  ID_CRED_R is intended to facilitate for the Initiator to retrieve
       the Responder's public authentication key.
@@ -777,7 +778,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
       -  ID_CRED_x = { 34 : COSE_CertHash }, for x = I or R,
 
-      -  ID_CRED_x = { TDB3 : COSE_CertHash }, for x = I or R,
 
 
 
@@ -785,6 +785,8 @@ Selander, et al.         Expires 6 November 2021               [Page 14]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
+
+      -  ID_CRED_x = { TDB3 : COSE_CertHash }, for x = I or R,
 
    *  by a URI with the 'c5u' or 'x5u' parameters;
 
@@ -832,8 +834,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
    *  Application AEAD algorithm
 
-   *  Application hash algorithm
-
 
 
 
@@ -841,6 +841,8 @@ Selander, et al.         Expires 6 November 2021               [Page 15]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
+
+   *  Application hash algorithm
 
    Each cipher suite is identified with a pre-defined int label.
 
@@ -886,9 +888,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
          (A256GCM, SHA-384, P-384, ES384,
           A256GCM, SHA-384)
 
-   The different methods use the same cipher suites, but some algorithms
-   are not used in some methods.  The EDHOC signature algorithm is not
-   used in methods without signature authentication.
+
 
 
 
@@ -897,6 +897,10 @@ Selander, et al.         Expires 6 November 2021               [Page 16]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
+
+   The different methods use the same cipher suites, but some algorithms
+   are not used in some methods.  The EDHOC signature algorithm is not
+   used in methods without signature authentication.
 
    The Initiator needs to have a list of cipher suites it supports in
    order of preference.  The Responder needs to have a list of cipher
@@ -940,10 +944,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
    the data a) does not violate security and privacy requirements of the
    service which uses this data, and b) does not violate the security
    properties of EDHOC.
-
-
-
-
 
 
 
