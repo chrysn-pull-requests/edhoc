@@ -2564,12 +2564,12 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
    the TEE.  To achieve even higher security it is RECOMMENDED that
    additional operations such as ephemeral key generation, all
    computations of shared secrets, and storage of the PRK keys can be
-   done inside the TEE.  The TEE can also be used to protect the EDHOC
-   and application protocol (e.g.  OSCORE) implementation using some
-   form of "secure boot", memory protection etc.  The use of a TEE
-   enforces that code within that environment cannot be tampered with,
-   and that any data used by such code cannot be read or tampered with
-   by code outside that environment.  Note that non-EDHOC code inside
+   done inside the TEE.  The use of a TEE enforces that code within that
+   environment cannot be tampered with, and that any data used by such
+   code cannot be read or tampered with by code outside that
+   environment.  Note that non-EDHOC code inside the TEE might still be
+   able to read EDHOC data and tamper with EDHOC code, to protect
+   against such attacks EDHOC needs to be in its own zone.  To provide
 
 
 
@@ -2578,10 +2578,10 @@ Selander, et al.         Expires 6 November 2021               [Page 46]
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
 
-   the TEE might still be able to read EDHOC data and tamper with EDHOC
-   code, to protect against such attacks EDHOC needs to be in its own
-   zone.  To provide better protection against physical attacks, memory
-   encryption needs to be enforced.
+   better protection against some forms of physical attacks, sensitive
+   EDHOC data should be stored inside the SoC or encrypted and integrity
+   protected when send on a data bus (e.g. between the CPU and RAM or
+   Flash).
 
 9.  IANA Considerations
 
