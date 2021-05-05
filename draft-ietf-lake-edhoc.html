@@ -1379,13 +1379,13 @@ Initiator                                                   Responder
         <h3 id="name-authentication-parameters">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-authentication-parameters" class="section-name selfRef">Authentication Parameters</a>
         </h3>
-<div id="authentication-keys">
+<div id="auth-keys">
 <section id="section-3.3.1">
           <h4 id="name-authentication-keys">
 <a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-authentication-keys" class="section-name selfRef">Authentication Keys</a>
           </h4>
 <p id="section-3.3.1-1">The authentication key MUST be a signature key or static Diffie-Hellman key. The Initiator and the Responder
- MAY use different types of authentication keys, e.g. one uses a signature key and the other uses a static Diffie-Hellman key. When using a signature key, the authentication is provided by a signature. When using a static Diffie-Hellman key the authentication is provided by a Message Authentication Code (MAC) computed from an ephemeral-static ECDH shared secret which enables significant reductions in message sizes. The MAC is implemented with an AEAD algorithm. When using static Diffie-Hellman keys the Initiator's and Responder's private authentication keys are called I and R, respectively, and the public authentication keys are called G_I and G_R, respectively.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
+ MAY use different types of authentication keys, e.g. one uses a signature key and the other uses a static Diffie-Hellman key. When using a signature key, the authentication is provided by a signature. When using a static Diffie-Hellman key the authentication is provided by a Message Authentication Code (MAC) computed from an ephemeral-static ECDH shared secret which enables significant reductions in message sizes. The MAC is implemented with an AEAD algorithm. When using static Diffie-Hellman keys the Initiator's and Responder's private authentication keys are called I and R, respectively, and the public authentication keys are called G_I and G_R, respectively. The authentication key algorithm needs to specified with enough parameters to make it completely determined. Note that for most signature algorithms, the signature is detemined by the signature algorithm and the authentication key algorithm together. For example, the curve used in the signature is typically determined by the authentication key parameters.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3.1-2.1">Only the Responder SHALL have access to the Responder's private authentication key.<a href="#section-3.3.1-2.1" class="pilcrow">¶</a>
 </li>
@@ -1496,62 +1496,60 @@ One byte credential identifiers are realistic in many scenarios as most constrai
         <h3 id="name-cipher-suites">
 <a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-cipher-suites" class="section-name selfRef">Cipher Suites</a>
         </h3>
-<p id="section-3.4-1">An EDHOC cipher suite consists of an ordered set of COSE code points from the "COSE Algorithms" and "COSE Elliptic Curves" registries:<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-1">An EDHOC cipher suite consists of an ordered set of algorithms from the "COSE Algorithms" and "COSE Elliptic Curves" registries. Algorithms need to be specified with enough parameters to make them completely determined. Currently, none of the algorithms require parameters. EDHOC is only specified for use with key exchange algorithms of type ECDH curves. Use with other types of key exchange algorithms would likely require a specification updating EDHOC. Note that for most signature algorithms, the signature is detemined by the signature algorithm and the authentication key algorithm together, see <a href="#auth-keys" class="xref">Section 3.3.1</a>.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.4-2.1">EDHOC AEAD algorithm<a href="#section-3.4-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-3.4-2.2">EDHOC hash algorithm<a href="#section-3.4-2.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.4-2.3">EDHOC ECDH curve<a href="#section-3.4-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.4-2.3">EDHOC key exchange algorithm (ECDH curve)<a href="#section-3.4-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-3.4-2.4">EDHOC signature algorithm<a href="#section-3.4-2.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.4-2.5">EDHOC signature algorithm curve<a href="#section-3.4-2.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.4-2.5">Application AEAD algorithm<a href="#section-3.4-2.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.4-2.6">Application AEAD algorithm<a href="#section-3.4-2.6" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-3.4-2.7">Application hash algorithm<a href="#section-3.4-2.7" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.4-2.6">Application hash algorithm<a href="#section-3.4-2.6" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-3.4-3">Each cipher suite is identified with a pre-defined int label.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
-<p id="section-3.4-4">EDHOC can be used with all algorithms and curves defined for COSE. Implementation can either use one of the pre-defined cipher suites (<a href="#suites-registry" class="xref">Section 9.1</a>) or use any combination of COSE algorithms to define their own private cipher suite. Private cipher suites can be identified with any of the four values -24, -23, -22, -21.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
+<p id="section-3.4-4">EDHOC can be used with all algorithms and curves defined for COSE. Implementation can either use one of the pre-defined cipher suites (<a href="#suites-registry" class="xref">Section 9.1</a>) or use any combination of COSE algorithms and parameters to define their own private cipher suite. Private cipher suites can be identified with any of the four values -24, -23, -22, -21.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
 <p id="section-3.4-5">The following cipher suites are for constrained IoT where message overhead is a very important factor:<a href="#section-3.4-5" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-3.4-6">
 <pre>
-   0. ( 10, -16, 4, -8, 6, 10, -16 )
-      (AES-CCM-16-64-128, SHA-256, X25519, EdDSA, Ed25519,
+   0. ( 10, -16, 4, -8, 10, -16 )
+      (AES-CCM-16-64-128, SHA-256, X25519, EdDSA,
        AES-CCM-16-64-128, SHA-256)
 
-   1. ( 30, -16, 4, -8, 6, 10, -16 )
-      (AES-CCM-16-128-128, SHA-256, X25519, EdDSA, Ed25519,
+   1. ( 30, -16, 4, -8, 10, -16 )
+      (AES-CCM-16-128-128, SHA-256, X25519, EdDSA,
        AES-CCM-16-64-128, SHA-256)
 
-   2. ( 10, -16, 1, -7, 1, 10, -16 )
-      (AES-CCM-16-64-128, SHA-256, P-256, ES256, P-256,
+   2. ( 10, -16, 1, -7, 10, -16 )
+      (AES-CCM-16-64-128, SHA-256, P-256, ES256,
        AES-CCM-16-64-128, SHA-256)
 
-   3. ( 30, -16, 1, -7, 1, 10, -16 )
-      (AES-CCM-16-128-128, SHA-256, P-256, ES256, P-256,
+   3. ( 30, -16, 1, -7, 10, -16 )
+      (AES-CCM-16-128-128, SHA-256, P-256, ES256,
        AES-CCM-16-64-128, SHA-256)
 </pre><a href="#section-3.4-6" class="pilcrow">¶</a>
 </div>
 <p id="section-3.4-7">The following cipher suite is for general non-constrained applications. It uses very high performance algorithms that also are widely supported:<a href="#section-3.4-7" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-3.4-8">
 <pre>
-   4. ( 1, -16, 4, -7, 1, 1, -16 )
-      (A128GCM, SHA-256, X25519, ES256, P-256,
+   4. ( 1, -16, 4, -7, 1, -16 )
+      (A128GCM, SHA-256, X25519, ES256,
        A128GCM, SHA-256)
 </pre><a href="#section-3.4-8" class="pilcrow">¶</a>
 </div>
 <p id="section-3.4-9">The following cipher suite is for high security application such as government use and financial applications. It is compatible with the CNSA suite <span>[<a href="#CNSA" class="xref">CNSA</a>]</span>.<a href="#section-3.4-9" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-3.4-10">
 <pre>
-   5. ( 3, -43, 2, -35, 2, 3, -43 )
-      (A256GCM, SHA-384, P-384, ES384, P-384,
+   5. ( 3, -43, 2, -35, 3, -43 )
+      (A256GCM, SHA-384, P-384, ES384,
        A256GCM, SHA-384)
 </pre><a href="#section-3.4-10" class="pilcrow">¶</a>
 </div>
-<p id="section-3.4-11">The different methods use the same cipher suites, but some algorithms are not used in some methods. The EDHOC signature algorithm and the EDHOC signature algorithm curve are not used in methods without signature authentication.<a href="#section-3.4-11" class="pilcrow">¶</a></p>
+<p id="section-3.4-11">The different methods use the same cipher suites, but some algorithms are not used in some methods. The EDHOC signature algorithm is not used in methods without signature authentication.<a href="#section-3.4-11" class="pilcrow">¶</a></p>
 <p id="section-3.4-12">The Initiator needs to have a list of cipher suites it supports in order of preference. The Responder needs to have a list of cipher suites it supports. SUITES_I is a CBOR array containing cipher suites that the Initiator supports. SUITES_I is formatted and processed as detailed in <a href="#asym-msg1-form" class="xref">Section 5.3.1</a> to secure the cipher suite negotiation. Examples of cipher suite negotiation are given in <a href="#ex-neg" class="xref">Section 6.3.2</a>.<a href="#section-3.4-12" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1587,7 +1585,7 @@ One byte credential identifiers are realistic in many scenarios as most constrai
 </li>
           <li id="section-3.7-3.3">How message_1 is identified, in particular if the optional initial C_1 = <code>null</code> of message_1 is present; see <a href="#asym-msg1-form" class="xref">Section 5.3.1</a><a href="#section-3.7-3.3" class="pilcrow">¶</a>
 </li>
-          <li id="section-3.7-3.4">Authentication credentials (CRED_I, CRED_R; see <a href="#auth-cred" class="xref">Section 3.3.3</a>).<a href="#section-3.7-3.4" class="pilcrow">¶</a>
+          <li id="section-3.7-3.4">Profile for authentication credentials (CRED_I, CRED_R; see <a href="#auth-cred" class="xref">Section 3.3.3</a>), e.g., profile for certificate or COSE_key, including supported authentication key algorithms (subject public key algorithm in X.509 certificate).<a href="#section-3.7-3.4" class="pilcrow">¶</a>
 </li>
           <li id="section-3.7-3.5">Type used to identify authentication credentials (ID_CRED_I, ID_CRED_R; see <a href="#id_cred" class="xref">Section 3.3.4</a>).<a href="#section-3.7-3.5" class="pilcrow">¶</a>
 </li>
@@ -2612,8 +2610,8 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-6">
 <pre>
 Value: 0
-Array: 10, 5, 4, -8, 6, 10, 5
-Desc: AES-CCM-16-64-128, SHA-256, X25519, EdDSA, Ed25519,
+Array: 10, -16, 4, -8, 10, -16
+Desc: AES-CCM-16-64-128, SHA-256, X25519, EdDSA,
       AES-CCM-16-64-128, SHA-256
 Reference: [[this document]]
 </pre><a href="#section-9.1-6" class="pilcrow">¶</a>
@@ -2621,8 +2619,8 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-7">
 <pre>
 Value: 1
-Array: 30, 5, 4, -8, 6, 10, 5
-Desc: AES-CCM-16-128-128, SHA-256, X25519, EdDSA, Ed25519,
+Array: 30, -16, 4, -8, 10, -16
+Desc: AES-CCM-16-128-128, SHA-256, X25519, EdDSA,
       AES-CCM-16-64-128, SHA-256
 Reference: [[this document]]
 </pre><a href="#section-9.1-7" class="pilcrow">¶</a>
@@ -2630,8 +2628,8 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-8">
 <pre>
 Value: 2
-Array: 10, 5, 1, -7, 1, 10, 5
-Desc: AES-CCM-16-64-128, SHA-256, P-256, ES256, P-256,
+Array: 10, -16, 1, -7, 10, -16
+Desc: AES-CCM-16-64-128, SHA-256, P-256, ES256,
       AES-CCM-16-64-128, SHA-256
 Reference: [[this document]]
 </pre><a href="#section-9.1-8" class="pilcrow">¶</a>
@@ -2639,8 +2637,8 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-9">
 <pre>
 Value: 3
-Array: 30, 5, 1, -7, 1, 10, 5
-Desc: AES-CCM-16-128-128, SHA-256, P-256, ES256, P-256,
+Array: 30, -16, 1, -7, 10, -16
+Desc: AES-CCM-16-128-128, SHA-256, P-256, ES256,
       AES-CCM-16-64-128, SHA-256
 Reference: [[this document]]
 </pre><a href="#section-9.1-9" class="pilcrow">¶</a>
@@ -2648,8 +2646,8 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-10">
 <pre>
 Value: 4
-Array: 1, -16, 4, -7, 1, 1, -16
-Desc: A128GCM, SHA-256, X25519, ES256, P-256,
+Array: 1, -16, 4, -7, 1, -16
+Desc: A128GCM, SHA-256, X25519, ES256,
       A128GCM, SHA-256
 Reference: [[this document]]
 </pre><a href="#section-9.1-10" class="pilcrow">¶</a>
@@ -2657,8 +2655,8 @@ Reference: [[this document]]
 <div class="artwork art-text alignLeft" id="section-9.1-11">
 <pre>
 Value: 5
-Array: 3, -43, 2, -35, 2, 3, -43
-Desc: A256GCM, SHA-384, P-384, ES384, P-384,
+Array: 3, -43, 2, -35, 3, -43
+Desc: A256GCM, SHA-384, P-384, ES384,
       A256GCM, SHA-384
 Reference: [[this document]]
 </pre><a href="#section-9.1-11" class="pilcrow">¶</a>
