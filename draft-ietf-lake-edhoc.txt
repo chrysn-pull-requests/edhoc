@@ -1040,8 +1040,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
    target application or use (if there is more than one application/use)
    to the extent that EDHOC can distinguish between them.  In case
    multiple applicability statements are used, the receiver needs to be
-   able to determine which is applicable for a given session, for
-   example based on URI or Auxiliary Data type.
+   able to determine which is applicable for a given protocol instance,
+   for example based on URI or Auxiliary Data type.
 
 4.  Key Derivation
 
@@ -1273,12 +1273,12 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
    This section outlines the message processing of EDHOC.
 
-   For each session, the endpoints are assumed to keep an associated
-   protocol state containing connection identifiers, keys, etc. used for
-   subsequent processing of protocol related data.  The protocol state
-   is assumed to be associated to an applicability statement
-   (Section 3.7) which provides the context for how messages are
-   transported, identified and processed.
+   For each protocol instance, the endpoints are assumed to keep an
+   associated protocol state containing connection identifiers, keys,
+   etc. used for subsequent processing of protocol related data.  The
+   protocol state is assumed to be associated to an applicability
+   statement (Section 3.7) which provides the context for how messages
+   are transported, identified and processed.
 
 
 
@@ -1315,12 +1315,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
    provided in the following subsections.
 
    Different instances of the same message MUST NOT be processed in one
-   session.  Note that processing will fail if the same message appears
-   a second time for EDHOC processing because the state of the protocol
-   has moved on and now expects something else.  This assumes that
-   message duplication due to re-transmissions is handled by the
-   transport protocol, see Section 3.2.3.  The case when the transport
-   does not support message deduplication is addressed in Appendix E.
+   protocol instance.  Note that processing will fail if the same
+   message appears a second time for EDHOC processing because the state
+   of the protocol has moved on and now expects something else.  This
+   assumes that message duplication due to re-transmissions is handled
+   by the transport protocol, see Section 3.2.3.  The case when the
+   transport does not support message deduplication is addressed in
+   Appendix E.
 
 5.3.  EDHOC Message 1
 
@@ -1328,7 +1329,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
    message_1 SHALL be a CBOR Sequence (see Appendix B.1) as defined
    below
-
 
 
 
@@ -5279,7 +5279,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
    message.  The result MAY be that a duplicate EDHOC response is sent,
    provided it is still relevant with respect the current protocol
    state.  In any case, the received message MUST NOT be processed more
-   than once by the same EDHOC session.  This is called "EDHOC message
+   than once by the same EDHOC instance.  This is called "EDHOC message
    deduplication".
 
    An EDHOC implementation MAY store the previously sent EDHOC message
@@ -5297,7 +5297,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
       protocol state.
 
    *  Different instances of the same message MUST NOT be processed in
-      one session.
+      one protocol instance.
 
 Appendix F.  Change Log
 
