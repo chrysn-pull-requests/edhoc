@@ -124,9 +124,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
      10.1.  Normative References . . . . . . . . . . . . . . . . . .  51
      10.2.  Informative References . . . . . . . . . . . . . . . . .  53
    Appendix A.  Compact Representation . . . . . . . . . . . . . . .  56
-   Appendix B.  Use of CBOR, CDDL and COSE in EDHOC  . . . . . . . .  56
+   Appendix B.  Use of CBOR, CDDL and COSE in EDHOC  . . . . . . . .  57
      B.1.  CBOR and CDDL . . . . . . . . . . . . . . . . . . . . . .  57
-     B.2.  CDDL Definitions  . . . . . . . . . . . . . . . . . . . .  57
+     B.2.  CDDL Definitions  . . . . . . . . . . . . . . . . . . . .  58
      B.3.  COSE  . . . . . . . . . . . . . . . . . . . . . . . . . .  59
    Appendix C.  Test Vectors . . . . . . . . . . . . . . . . . . . .  59
      C.1.  Test Vectors for EDHOC Authenticated with Signature Keys
@@ -2918,6 +2918,10 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
               Overview", RFC 8376, DOI 10.17487/RFC8376, May 2018,
               <https://www.rfc-editor.org/info/rfc8376>.
 
+   [RFC8392]  Jones, M., Wahlstroem, E., Erdtman, S., and H. Tschofenig,
+              "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
+              May 2018, <https://www.rfc-editor.org/info/rfc8392>.
+
    [RFC8610]  Birkholz, H., Vigano, C., and C. Bormann, "Concise Data
               Definition Language (CDDL): A Notational Convention to
               Express Concise Binary Object Representation (CBOR) and
@@ -2939,6 +2943,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
               Sequences", RFC 8742, DOI 10.17487/RFC8742, February 2020,
               <https://www.rfc-editor.org/info/rfc8742>.
 
+   [RFC8747]  Jones, M., Seitz, L., Selander, G., Erdtman, S., and H.
+              Tschofenig, "Proof-of-Possession Key Semantics for CBOR
+              Web Tokens (CWTs)", RFC 8747, DOI 10.17487/RFC8747, March
+              2020, <https://www.rfc-editor.org/info/rfc8747>.
+
    [RFC8949]  Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", STD 94, RFC 8949,
               DOI 10.17487/RFC8949, December 2020,
@@ -2953,15 +2962,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
               verification-of-ephemeral-diffie-hellman-over-cose-
               edhoc/16284348>.
 
-   [CborMe]   Bormann, C., "CBOR Playground", May 2018,
-              <http://cbor.me/>.
-
-   [CNSA]     (Placeholder), ., "Commercial National Security Algorithm
-              Suite", August 2015,
-              <https://apps.nsa.gov/iaarchive/programs/iad-initiatives/
-              cnsa-suite.cfm>.
-
-
 
 
 
@@ -2969,6 +2969,14 @@ Selander, et al.        Expires 14 November 2021               [Page 53]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
+
+   [CborMe]   Bormann, C., "CBOR Playground", May 2018,
+              <http://cbor.me/>.
+
+   [CNSA]     (Placeholder), ., "Commercial National Security Algorithm
+              Suite", August 2015,
+              <https://apps.nsa.gov/iaarchive/programs/iad-initiatives/
+              cnsa-suite.cfm>.
 
    [I-D.ietf-core-oscore-edhoc]
               Palombini, F., Tiloca, M., Hoeglund, R., Hristozov, S.,
@@ -3010,14 +3018,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
    [I-D.mattsson-cose-cbor-cert-compress]
               Raza, S., Höglund, J., Selander, G., Mattsson, J. P., and
               M. Furuhed, "CBOR Encoded X.509 Certificates (C509
-              Certificates)", Work in Progress, Internet-Draft, draft-
-              mattsson-cose-cbor-cert-compress-08, 22 February 2021,
-              <https://www.ietf.org/archive/id/draft-mattsson-cose-cbor-
-              cert-compress-08.txt>.
-
-   [I-D.selander-ace-ake-authz]
-              Selander, G., Mattsson, J. P., Vucinic, M., Richardson,
-              M., and A. Schellenbaum, "Lightweight Authorization for
 
 
 
@@ -3026,6 +3026,14 @@ Selander, et al.        Expires 14 November 2021               [Page 54]
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
 
+              Certificates)", Work in Progress, Internet-Draft, draft-
+              mattsson-cose-cbor-cert-compress-08, 22 February 2021,
+              <https://www.ietf.org/archive/id/draft-mattsson-cose-cbor-
+              cert-compress-08.txt>.
+
+   [I-D.selander-ace-ake-authz]
+              Selander, G., Mattsson, J. P., Vucinic, M., Richardson,
+              M., and A. Schellenbaum, "Lightweight Authorization for
               Authenticated Key Exchange.", Work in Progress, Internet-
               Draft, draft-selander-ace-ake-authz-02, 2 November 2020,
               <https://www.ietf.org/archive/id/draft-selander-ace-ake-
@@ -3063,6 +3071,17 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
    [SECG]     "Standards for Efficient Cryptography 1 (SEC 1)", May
               2009, <https://www.secg.org/sec1-v2.pdf>.
 
+
+
+
+
+
+
+Selander, et al.        Expires 14 November 2021               [Page 55]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
+
+
    [SIGMA]    Krawczyk, H., "SIGMA - The 'SIGn-and-MAc' Approach to
               Authenticated Diffie-Hellman and Its Use in the IKE-
               Protocols (Long version)", June 2003,
@@ -3074,13 +3093,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
               Schemes Using Discrete Logarithm Cryptography",
               NIST Special Publication 800-56A Revision 3, April 2018,
               <https://doi.org/10.6028/NIST.SP.800-56Ar3>.
-
-
-
-Selander, et al.        Expires 14 November 2021               [Page 55]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
-
 
 Appendix A.  Compact Representation
 
@@ -3118,18 +3130,6 @@ Appendix A.  Compact Representation
    avoids so called "benign malleability" attacks where an attacker
    changes the sign, see [SECG].
 
-Appendix B.  Use of CBOR, CDDL and COSE in EDHOC
-
-   This Appendix is intended to simplify for implementors not familiar
-   with CBOR [RFC8949], CDDL [RFC8610], COSE
-   [I-D.ietf-cose-rfc8152bis-struct], and HKDF [RFC5869].
-
-
-
-
-
-
-
 
 
 
@@ -3137,6 +3137,12 @@ Selander, et al.        Expires 14 November 2021               [Page 56]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
+
+Appendix B.  Use of CBOR, CDDL and COSE in EDHOC
+
+   This Appendix is intended to simplify for implementors not familiar
+   with CBOR [RFC8949], CDDL [RFC8610], COSE
+   [I-D.ietf-cose-rfc8152bis-struct], and HKDF [RFC5869].
 
 B.1.  CBOR and CDDL
 
@@ -3179,12 +3185,6 @@ B.1.  CBOR and CDDL
     1, 2, null          0x0102f6             sequence
     ------------------------------------------------------------------
 
-B.2.  CDDL Definitions
-
-   This sections compiles the CDDL definitions for ease of reference.
-
-
-
 
 
 
@@ -3193,6 +3193,10 @@ Selander, et al.        Expires 14 November 2021               [Page 57]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
+
+B.2.  CDDL Definitions
+
+   This sections compiles the CDDL definitions for ease of reference.
 
    bstr_identifier = bstr / int
 
@@ -3238,10 +3242,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
      ? C_I : bstr_identifier,
    )
 
-   error = (
-     ? C_x : bstr_identifier,
-     ERR_CODE : int,
-     ERR_INFO : any
 
 
 
@@ -3250,6 +3250,10 @@ Selander, et al.        Expires 14 November 2021               [Page 58]
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO        May 2021
 
 
+   error = (
+     ? C_x : bstr_identifier,
+     ERR_CODE : int,
+     ERR_INFO : any
    )
 
    info = [
@@ -3292,10 +3296,6 @@ Appendix C.  Test Vectors
 
    NOTE 2.  If not clear from the context, remember that CBOR sequences
    and CBOR arrays assume CBOR encoded data items as elements.
-
-
-
-
 
 
 
